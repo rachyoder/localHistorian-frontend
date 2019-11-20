@@ -61,9 +61,8 @@ export default class LoginNav extends React.Component {
                 if (res.status === 200) {
                     let token = res.data.token;
                     localStorage.setItem("token", token);
-
                     this.setState({ modal: !this.state.modal });
-                    this.props.getToken(token);
+                    this.props.getTokenMethod(token);
                 } else if (res.response.status === 422) {
                     console.log(res.response.data)
                     this.setState({ errorThrown: res.response.data + "- Check credentials and Try Again" });

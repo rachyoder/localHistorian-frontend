@@ -12,10 +12,10 @@ export default class SimpleNavbar extends React.Component {
                     <NavbarBrand href="/" className="mr-auto"><span className="text-muted">local</span>Historian</NavbarBrand>
                     <Nav navbar>
                         <NavItem>
-                            {this.props.setToken === "" ? (
-                                <LoginNav getToken={this.props.getToken} />
+                            {this.props.token === "" ? (
+                                <LoginNav getTokenMethod={this.props.getTokenMethod} />
                             ) : (
-                                    <Logout token={this.props.setToken} clearToken={this.props.getToken} /> )}
+                                    <Logout token={this.props.token} clearToken={this.props.getTokenMethod} /> )}
                         </NavItem>
                     </Nav>
                 </Navbar>

@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap';
 
 import SimpleNavbar from './components/SimpleNavbar';
+import Upload from './components/Upload';
 
 export default class App extends React.Component {
 	constructor(props) {
@@ -20,11 +21,20 @@ export default class App extends React.Component {
 		this.setState({ token: userToken });
 	}
 
+	componentDidMount() {
+		if (localStorage.length > 0) {
+			this.setState({ token: localStorage.getItem('token') })
+		}
+	}
+
 	render() {
 		return (
-			<div>
-				<SimpleNavbar setToken={this.state.token} getToken={this.getLoginToken} />
-			</div>
+			<React.Fragment>
+				<SimpleNavbar token={this.state.token} getTokenMethod={this.getLoginToken} />
+				<footer>
+					<Upload token={this.state.token} />
+				</footer>
+			</React.Fragment>
 		);
 	}
 }
