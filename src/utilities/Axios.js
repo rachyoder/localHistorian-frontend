@@ -5,12 +5,14 @@ function __get(url, token) {
         url: url,
         baseURL: "http://127.0.0.1:8000/api/",
         method: "get",
-        headers: { Authorization: "bearer " + token },
+        headers: { Authorization: "Bearer " + token },
     })
         .then(res => {
+            console.log(res);
             return res;
         })
         .catch(error => {
+            console.log(error);
             return error;
         });
 }

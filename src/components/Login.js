@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Input, Label } from "reactstrap";
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Input, Label, NavLink } from "reactstrap";
 import API_Calls from "../utilities/Axios";
 
 export default class Login extends React.Component {
@@ -34,14 +34,15 @@ export default class Login extends React.Component {
         };
         API_Calls.__post(login, '/login', '')
             .then(res => {
-                if(res.status === 200) {
+                if (res.status === 200) {
                     let token = res.data.token;
+                    localStorage.setItem("token", token);
+
+                    this.setState({ modal: !this.state.modal });
                     this.props.getToken(token);
-                    localStorage.setItem(token, token);
-                    let modal = (!this.state.modal);
-                    this.setState({ modal: modal });
-                } else if(res.response.status === 422) {
-                    this.setState({errorThrown: res.response.data + "- Check credentials and Try Again"});
+                } else if (res.response.status === 422) {
+                    console.log(res.response.data)
+                    this.setState({ errorThrown: res.response.data + "- Check credentials and Try Again" });
                 }
             })
             .catch(error => {
@@ -52,7 +53,7 @@ export default class Login extends React.Component {
     render() {
         return (
             <div>
-                <Button color="danger" onClick={this.toggle}>click me</Button>
+                <NavLink onClick={this.toggle}>Login</NavLink>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} >
                     <ModalHeader toggle={this.toggle}>
                         Login
@@ -70,7 +71,7 @@ export default class Login extends React.Component {
                             <p className="text-danger">{this.state.errorThrown}</p>
                         </ModalBody>
                         <ModalFooter>
-                            <Button color="primary" onSubmit={this.handleSubmit} >Login</Button>
+                            <Button color="dark" outline onSubmit={this.handleSubmit} >Login</Button>
                         </ModalFooter>
                     </Form>
                 </Modal>

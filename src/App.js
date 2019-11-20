@@ -4,7 +4,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap';
 
-import Login from './components/Login';
+import SimpleNavbar from './components/SimpleNavbar';
 
 export default class App extends React.Component {
 	constructor(props) {
@@ -17,14 +17,13 @@ export default class App extends React.Component {
 	}
 
 	getLoginToken(userToken) {
-		console.log(userToken);
 		this.setState({ token: userToken });
 	}
 
 	render() {
-		return(
+		return (
 			<div>
-				<Login getToken={this.getLoginToken} />
+				<SimpleNavbar setToken={this.state.token} getToken={this.getLoginToken} />
 			</div>
 		);
 	}
