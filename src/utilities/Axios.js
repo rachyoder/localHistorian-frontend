@@ -8,11 +8,9 @@ function __get(url, token) {
         headers: { Authorization: "Bearer " + token },
     })
         .then(res => {
-            console.log(res);
             return res;
         })
         .catch(error => {
-            console.log(error);
             return error;
         });
 }

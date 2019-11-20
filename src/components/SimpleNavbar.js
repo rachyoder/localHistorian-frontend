@@ -1,5 +1,5 @@
 import React from "react";
-import Login from "./Login";
+import LoginNav from "./LoginNav";
 import Logout from "./Logout";
 
 import { Navbar, NavbarBrand, Nav, NavItem } from "reactstrap";
@@ -13,7 +13,7 @@ export default class SimpleNavbar extends React.Component {
                     <Nav navbar>
                         <NavItem>
                             {this.props.setToken === "" ? (
-                                <Login getToken={this.props.getToken} />
+                                <LoginNav getToken={this.props.getToken} />
                             ) : (
                                     <Logout token={this.props.setToken} clearToken={this.props.getToken} /> )}
                         </NavItem>
