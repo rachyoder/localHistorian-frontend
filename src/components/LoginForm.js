@@ -28,7 +28,7 @@ export default class LoginForm extends React.Component {
                     <Label for="userPassword">Password</Label>
                     <Input type="password" name="password" id="userPassword" value={this.state.password} onChange={this.handleChange} />
                 </FormGroup>
-                <p className="text-danger">{this.state.errorThrown}</p>
+                <p className="text-danger">{this.props.errorThrown}</p>
             </React.Fragment>
         )
     }

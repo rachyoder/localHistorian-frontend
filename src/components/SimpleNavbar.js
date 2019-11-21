@@ -9,7 +9,7 @@ export default class SimpleNavbar extends React.Component {
         return (
             <React.Fragment>
                 <Navbar color="faded" light>
-                    <NavbarBrand href="/" className="mr-auto"><span className="text-muted">local</span>Historian</NavbarBrand>
+                    <NavbarBrand href="/" className="mr-auto"><span className="text-info">local</span>Historian</NavbarBrand>
                     <Nav navbar>
                         <NavItem>
                             {this.props.token === "" ? (

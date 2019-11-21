@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap';
 
 import SimpleNavbar from './components/SimpleNavbar';
-import Upload from './components/Upload';
+import Upload from './components/Upload/Upload';
 
 export default class App extends React.Component {
 	constructor(props) {
@@ -31,7 +31,7 @@ export default class App extends React.Component {
 		return (
 			<React.Fragment>
 				<SimpleNavbar token={this.state.token} getTokenMethod={this.getLoginToken} />
-				<footer>
+				<footer className="fixed-bottom">
 					<Upload token={this.state.token} />
 				</footer>
 			</React.Fragment>

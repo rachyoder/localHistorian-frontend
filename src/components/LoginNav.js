@@ -64,8 +64,7 @@ export default class LoginNav extends React.Component {
                     this.setState({ modal: !this.state.modal });
                     this.props.getTokenMethod(token);
                 } else if (res.response.status === 422) {
-                    console.log(res.response.data)
-                    this.setState({ errorThrown: res.response.data + "- Check credentials and Try Again" });
+                    this.setState({ errorThrown: res.response.data + " - Check credentials and Try Again" });
                 }
             })
             .catch(error => {
@@ -94,7 +93,7 @@ export default class LoginNav extends React.Component {
                         <ModalBody>
                             <TabContent activeTab={this.state.activeTab} >
                                 <TabPane tabId="1">
-                                    <LoginForm pullState={this.pullState} />
+                                    <LoginForm pullState={this.pullState} errorThrown={this.state.errorThrown} />
                                 </TabPane>
                                 <TabPane tabId="2">
                                     <RegisterForm pullState={this.pullState} />
