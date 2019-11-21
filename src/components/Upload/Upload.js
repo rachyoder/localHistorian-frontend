@@ -11,17 +11,31 @@ export default class Upload extends React.Component {
 		super(props);
 		this.state = {
 			image: '',
+			coords: '',
 			modal: false,
+			errorThrown: '',
 		}
+		this.success = this.success.bind(this);
 		this.toggleModal = this.toggleModal.bind(this);
 		this.onFormSubmit = this.onFormSubmit.bind(this);
 		this.onChange = this.onChange.bind(this);
 		this.fileUpload = this.fileUpload.bind(this);
 	}
+
+	success(pos) {
+		let coords = pos.coords.latitude + ',' + pos.coords.longitude;
+
+		this.setState({
+			coords: coords,
+		});
+		console.log(this.state.coords);
+	}
 	toggleModal() {
-        let modal = (!this.state.modal);
-        this.setState({ modal: modal });
-    }
+		let modal = (!this.state.modal);
+		this.setState({
+			modal: modal
+		});
+	}
 	onFormSubmit(e) {
 		e.preventDefault()
 		this.fileUpload(this.state.image);
@@ -32,6 +46,7 @@ export default class Upload extends React.Component {
 		if (!files.length)
 			return;
 		this.createImage(files[0]);
+		navigator.geolocation.getCurrentPosition(this.success);
 		this.toggleModal();
 	}
 	createImage(file) {
@@ -45,20 +60,28 @@ export default class Upload extends React.Component {
 	}
 	fileUpload() {
 		const url = '/fileupload';
-		const formData = { file: this.state.image }
+		const formData = {
+			file: this.state.image,
+			coords: this.state.coords
+		}
 		API_Calls.__post(formData, url, this.props.token)
 			.then(res => {
-				console.log(res);
-			});
+				this.setState({
+					coords: {
+						lat: 0,
+						lon: 0
+					}
+				});
+			})
+			.catch(error => error);
 	}
 
 	render() {
 		return (
 			<div className="float-right mb-3 mr-3">
 				<Form onSubmit={this.onFormSubmit}>
-					<input type="file" id="file" onChange={this.onChange} required capture="environment" />
+					<input type="file" id="file" onChange={this.onChange} required accept="image/*" capture="environment" />
 					<label htmlFor="file"><FontAwesomeIcon icon={faCamera} /></label>
-
 					<Modal isOpen={this.state.modal} toggle={this.toggleModal} >
 						<ModalHeader>
 							Upload This Image?
@@ -67,7 +90,12 @@ export default class Upload extends React.Component {
 							<img src={this.state.image} className="display-img" alt="" />
 						</ModalBody>
 						<ModalFooter>
-							<Button block color="info" onClick={this.onFormSubmit}>Submit</Button>
+							{this.state.coords.lon === 0 ?
+								(
+									(<Button block color="info" disabled >Submit</Button>)
+								) : (
+									<Button block color="info" onClick={this.onFormSubmit}>Submit</Button>
+								)}
 						</ModalFooter>
 					</Modal>
 				</Form>
