@@ -76,7 +76,7 @@ export default class LoginNav extends React.Component {
         return (
             <React.Fragment>
                 <NavLink onClick={this.toggleModal}>Login</NavLink>
-                <Modal isOpen={this.state.modal} toggle={this.toggleModal} >
+                <Modal centered isOpen={this.state.modal} toggle={this.toggleModal} >
                     <Nav tabs fill>
                         <NavItem>
                             <NavLink className={classnames({ active: this.state.activeTab })} onClick={() => this.toggleTab('1')} >

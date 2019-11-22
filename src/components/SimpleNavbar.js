@@ -8,7 +8,7 @@ export default class SimpleNavbar extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <Navbar color="faded" light>
+                <Navbar color="dark" dark fixed={"top"}>
                     <NavbarBrand href="/" className="mr-auto"><span className="text-info">local</span>Historian</NavbarBrand>
                     <Nav navbar>
                         <NavItem>

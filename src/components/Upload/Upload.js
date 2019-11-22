@@ -1,17 +1,19 @@
 import React from "react";
 import API_Calls from "../../utilities/Axios";
 import "./Upload.css";
+import EXIF from "exif-js";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
-import { Form, Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { Form, Button, Modal, ModalHeader, ModalBody, ModalFooter, Spinner } from "reactstrap";
 
 export default class Upload extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			image: '',
-			coords: '',
+			deviceCoords: '',
+			photoCoords: '',
 			modal: false,
 			errorThrown: '',
 		}
@@ -20,27 +22,29 @@ export default class Upload extends React.Component {
 		this.onFormSubmit = this.onFormSubmit.bind(this);
 		this.onChange = this.onChange.bind(this);
 		this.fileUpload = this.fileUpload.bind(this);
+		this.getExif = this.getExif.bind(this);
 	}
 
 	success(pos) {
 		let coords = pos.coords.latitude + ',' + pos.coords.longitude;
 
 		this.setState({
-			coords: coords,
+			deviceCoords: coords,
 		});
-		console.log(this.state.coords);
 	}
+
 	toggleModal() {
-		let modal = (!this.state.modal);
 		this.setState({
-			modal: modal
+			modal: (!this.state.modal)
 		});
 	}
+
 	onFormSubmit(e) {
 		e.preventDefault()
 		this.fileUpload(this.state.image);
 		this.toggleModal();
 	}
+
 	onChange(e) {
 		let files = e.target.files || e.dataTransfer.files;
 		if (!files.length)
@@ -49,6 +53,7 @@ export default class Upload extends React.Component {
 		navigator.geolocation.getCurrentPosition(this.success);
 		this.toggleModal();
 	}
+
 	createImage(file) {
 		let reader = new FileReader();
 		reader.onload = (e) => {
@@ -58,41 +63,72 @@ export default class Upload extends React.Component {
 		};
 		reader.readAsDataURL(file);
 	}
-	fileUpload() {
+
+	async fileUpload() {
+		await this.getExif();
 		const url = '/fileupload';
-		const formData = {
-			file: this.state.image,
-			coords: this.state.coords
-		}
+		const formData = (this.state.photoCoords === '') ?
+			{
+				file: this.state.image,
+				coords: this.state.deviceCoords
+			} :
+			{
+				file: this.state.image,
+				coords: this.state.photoCoords
+			};
+
 		API_Calls.__post(formData, url, this.props.token)
 			.then(res => {
 				this.setState({
-					coords: {
-						lat: 0,
-						lon: 0
-					}
+					deviceCoords: '',
+					photoCoords: '',
 				});
 			})
 			.catch(error => error);
 	}
 
+	async getExif() {
+		let img1 = document.getElementById("get-exif");
+		let lat, lon, lat_cardinal, lon_cardinal;
+		EXIF.getData(img1, function () {
+			lat = EXIF.getTag(this, "GPSLatitude");
+			lon = EXIF.getTag(this, "GPSLongitude");
+			lat_cardinal = EXIF.getTag(this, "GPSLatitudeRef");
+			lon_cardinal = EXIF.getTag(this, "GPSLongitudeRef");
+
+		});
+		if (lat !== undefined) {
+			let lat_dd = (lat[0].numerator + (lat[1].numerator / 60) + (lat[2].numerator / 360000));
+			let lon_dd = (lon[0].numerator + (lon[1].numerator / 60) + (lon[2].numerator / 360000));
+
+			lat_dd = (lat_cardinal === "S") ? -Math.abs(lat_dd) : lat_dd;
+			lon_dd = (lon_cardinal === "W") ? -Math.abs(lon_dd) : lon_dd;
+
+			lat_dd = lat_dd.toFixed(4);
+			lon_dd = lon_dd.toFixed(4);
+
+			let dd_coords = lat_dd + "," + lon_dd;
+			this.setState({ photoCoords: dd_coords });
+		}
+	}
+
 	render() {
 		return (
-			<div className="float-right mb-3 mr-3">
+			<div className="float-left mb-3 ml-3">
 				<Form onSubmit={this.onFormSubmit}>
 					<input type="file" id="file" onChange={this.onChange} required accept="image/*" capture="environment" />
 					<label htmlFor="file"><FontAwesomeIcon icon={faCamera} /></label>
 					<Modal isOpen={this.state.modal} toggle={this.toggleModal} >
-						<ModalHeader>
+						<ModalHeader className="text-center">
 							Upload This Image?
 						</ModalHeader>
 						<ModalBody>
-							<img src={this.state.image} className="display-img" alt="" />
+							<img src={this.state.image} className="display-img" id="get-exif" alt="" />
 						</ModalBody>
 						<ModalFooter>
-							{this.state.coords.lon === 0 ?
+							{this.state.deviceCoords === '' ?
 								(
-									(<Button block color="info" disabled >Submit</Button>)
+									(<Button block color="info" disabled ><Spinner type="grow" color="light" /></Button>)
 								) : (
 									<Button block color="info" onClick={this.onFormSubmit}>Submit</Button>
 								)}

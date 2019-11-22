@@ -1,0 +1,7 @@
+.alert {
+    z-index: 99999;
+    margin-top: 4rem;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    position: absolute !important;
+}

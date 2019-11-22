@@ -8,6 +8,7 @@ import {Alert} from 'reactstrap';
 
 import SimpleNavbar from './components/SimpleNavbar';
 import Upload from './components/Upload/Upload';
+import SimpleMap from './components/SimpleMap';
 
 export default class App extends React.Component {
 	constructor(props) {
@@ -15,6 +16,8 @@ export default class App extends React.Component {
 		this.state = {
 			token: '',
 			visible: false,
+			lat: '',
+			lng: '',
 		}
 		this.getLoginToken = this.getLoginToken.bind(this);
 		this.displayLocation = this.displayLocation.bind(this);
@@ -23,14 +26,16 @@ export default class App extends React.Component {
 	}
 
 	getLoginToken(userToken) {
-		this.setState({ token: userToken });
+		this.setState({token: userToken});
 	}
 
 	displayLocation(position) {
-		console.log(position);
+		this.setState ({
+			lat: position.coords.latitude,
+			lng: position.coords.longitude,
+		})
 	}
 	deniedLocation(error) {
-		console.log(error.message);
 		this.setState({visible: true});
 	}
 	onDismiss() {
@@ -54,6 +59,7 @@ export default class App extends React.Component {
 			<React.Fragment>
 				<SimpleNavbar token={this.state.token} getTokenMethod={this.getLoginToken} />
 				<Alert color="danger" isOpen={this.state.visible} toggle={this.onDismiss} >This website uses location data in order to accurately track the position of Historical Markers, as well as many other features on this site. Please enable location data on this website to continue.</Alert>
+				<SimpleMap />
 				<footer className="fixed-bottom">
 					<Upload token={this.state.token} />
 				</footer>
