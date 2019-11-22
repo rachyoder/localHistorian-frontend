@@ -17,27 +17,27 @@
   display: inline-block;
   font-size: 2rem;
   font-weight: 700;
-  line-height: 5rem;
+  line-height: 4.8rem;
   padding: 0;
   width: 5rem;
   height: 5rem;
   text-align:center;
-  transition: background-color 0.3s;
+  transition: color 0.3s;
 }
 
 [type="file"]:focus+label,
 [type="file"]+label:hover {
-  background-color: #17a3b8;
+  color: #17a3b8;
 }
 
 [type="file"]:focus+label {
-  outline: 1px dotted #000;
+  outline: 1px dotted #343a40;
   outline: -webkit-focus-ring-color auto 5px;
 }
 
 .display-img {
   max-width: 100%;
   border-radius: 15px;
-  border-top: 1px solid black;
-  border-right: 1px solid black;
+  border-top: 1px solid white;
+  border-right: 1px solid white;
 }

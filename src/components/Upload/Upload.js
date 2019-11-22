@@ -114,18 +114,18 @@ export default class Upload extends React.Component {
 
 	render() {
 		return (
-			<div className="float-left mb-3 ml-3">
+			<div className="float-right mb-3 mr-4">
 				<Form onSubmit={this.onFormSubmit}>
 					<input type="file" id="file" onChange={this.onChange} required accept="image/*" capture="environment" />
 					<label htmlFor="file"><FontAwesomeIcon icon={faCamera} /></label>
-					<Modal isOpen={this.state.modal} toggle={this.toggleModal} >
-						<ModalHeader className="text-center">
+					<Modal centered isOpen={this.state.modal} toggle={this.toggleModal} >
+						<ModalHeader className="text-center bg-dark text-light">
 							Upload This Image?
 						</ModalHeader>
-						<ModalBody>
+						<ModalBody className="bg-dark text-light">
 							<img src={this.state.image} className="display-img" id="get-exif" alt="" />
 						</ModalBody>
-						<ModalFooter>
+						<ModalFooter className="bg-dark text-light">
 							{this.state.deviceCoords === '' ?
 								(
 									(<Button block color="info" disabled ><Spinner type="grow" color="light" /></Button>)
