@@ -18,6 +18,7 @@ export default class Upload extends React.Component {
 			errorThrown: '',
 		}
 		this.success = this.success.bind(this);
+		this.error = this.error.bind(this);
 		this.toggleModal = this.toggleModal.bind(this);
 		this.onFormSubmit = this.onFormSubmit.bind(this);
 		this.onChange = this.onChange.bind(this);
@@ -31,6 +32,9 @@ export default class Upload extends React.Component {
 		this.setState({
 			deviceCoords: coords,
 		});
+	}
+	error(err) {
+		console.log(err);
 	}
 
 	toggleModal() {
@@ -50,7 +54,10 @@ export default class Upload extends React.Component {
 		if (!files.length)
 			return;
 		this.createImage(files[0]);
-		navigator.geolocation.getCurrentPosition(this.success);
+		let options = {
+			enableHighAccuracy: false,
+		}
+		navigator.geolocation.getCurrentPosition(this.success, this.error, options);
 		this.toggleModal();
 	}
 
@@ -95,8 +102,8 @@ export default class Upload extends React.Component {
 			lon = EXIF.getTag(this, "GPSLongitude");
 			lat_cardinal = EXIF.getTag(this, "GPSLatitudeRef");
 			lon_cardinal = EXIF.getTag(this, "GPSLongitudeRef");
-
 		});
+
 		if (lat !== undefined) {
 			let lat_dd = (lat[0].numerator + (lat[1].numerator / 60) + (lat[2].numerator / 360000));
 			let lon_dd = (lon[0].numerator + (lon[1].numerator / 60) + (lon[2].numerator / 360000));

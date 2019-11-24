@@ -38,13 +38,8 @@ export class SimpleMap extends React.Component {
     async MarkerGetter() {
         await API_Calls.__get('/markers', '')
             .then(res => {
-
-                    console.log(res.data.data);
                     this.setState({ data: res.data.data });
-                
             });
-        console.log("ggs",this.state);
-
     }
 
     componentDidMount() {
@@ -53,7 +48,6 @@ export class SimpleMap extends React.Component {
 
     render() {
         const Markers = this.state.data.map((marker, idx) => {
-            console.log("render me");
             return (
                 <Marker
                     key={idx}
