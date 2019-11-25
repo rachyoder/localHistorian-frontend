@@ -2,10 +2,10 @@ import React from "react";
 import API_Calls from "../../utilities/Axios";
 import "./Upload.css";
 import EXIF from "exif-js";
-
+import Geocode from "react-geocode";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
-import { Form, Button, Modal, ModalHeader, ModalBody, ModalFooter, Spinner } from "reactstrap";
+import { Form, Button, Modal, ModalHeader, ModalBody, ModalFooter, Spinner, Input, Label, FormGroup } from "reactstrap";
 
 export default class Upload extends React.Component {
 	constructor(props) {
@@ -16,10 +16,13 @@ export default class Upload extends React.Component {
 			photoCoords: '',
 			modal: false,
 			errorThrown: '',
+			title: '',
+			desc: '',
 		}
 		this.success = this.success.bind(this);
 		this.error = this.error.bind(this);
 		this.toggleModal = this.toggleModal.bind(this);
+		this.handleChange = this.handleChange.bind(this);
 		this.onFormSubmit = this.onFormSubmit.bind(this);
 		this.onChange = this.onChange.bind(this);
 		this.fileUpload = this.fileUpload.bind(this);
@@ -43,10 +46,13 @@ export default class Upload extends React.Component {
 		});
 	}
 
+	handleChange(event) {
+		this.setState({ [event.target.name]: event.target.value });
+	}
+
 	onFormSubmit(e) {
 		e.preventDefault()
 		this.fileUpload(this.state.image);
-		this.toggleModal();
 	}
 
 	onChange(e) {
@@ -77,21 +83,34 @@ export default class Upload extends React.Component {
 		const formData = (this.state.photoCoords === '') ?
 			{
 				file: this.state.image,
-				coords: this.state.deviceCoords
+				coords: this.state.deviceCoords,
+				title: this.state.title,
+				desc: this.state.desc,
 			} :
 			{
 				file: this.state.image,
-				coords: this.state.photoCoords
+				coords: this.state.photoCoords,
+				title: this.state.title,
+				desc: this.state.desc,
 			};
 
 		API_Calls.__post(formData, url, this.props.token)
 			.then(res => {
-				this.setState({
-					deviceCoords: '',
-					photoCoords: '',
-				});
+				if(res.response.status === 401) {
+					this.setState({errorThrown: 401});
+				} else {
+					this.toggleModal();
+					this.setState({
+						deviceCoords: '',
+						photoCoords: '',
+						title: '',
+						desc: '',
+					});
+				}
 			})
-			.catch(error => error);
+			.catch(error => {
+				console.log(error);
+			});
 	}
 
 	async getExif() {
@@ -125,12 +144,20 @@ export default class Upload extends React.Component {
 				<Form onSubmit={this.onFormSubmit}>
 					<input type="file" id="file" onChange={this.onChange} required accept="image/*" capture="environment" />
 					<label htmlFor="file"><FontAwesomeIcon icon={faCamera} /></label>
-					<Modal centered isOpen={this.state.modal} toggle={this.toggleModal} >
+					<Modal centered scrollable isOpen={this.state.modal} toggle={this.toggleModal} >
 						<ModalHeader className="text-center bg-dark text-light">
 							Upload This Image?
 						</ModalHeader>
 						<ModalBody className="bg-dark text-light">
 							<img src={this.state.image} className="display-img" id="get-exif" alt="" />
+							<FormGroup className="mt-3">
+								<Label for="markerTitle">Title</Label>
+								<Input type="text" name="title" id="markerTitle" onChange={this.handleChange} />
+							</FormGroup>
+							<FormGroup>
+								<Label for="markerBody">Marker Contents</Label>
+								<Input type="textarea" name="desc" id="markerBody" onChange={this.handleChange} />
+							</FormGroup>
 						</ModalBody>
 						<ModalFooter className="bg-dark text-light">
 							{this.state.deviceCoords === '' ?

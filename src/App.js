@@ -8,7 +8,7 @@ import {Alert} from 'reactstrap';
 
 import SimpleNavbar from './components/SimpleNavbar';
 import Upload from './components/Upload/Upload';
-import SimpleMap from './components/SimpleMap';
+import SimpleMap from './components/SimpleMap/SimpleMap';
 
 export default class App extends React.Component {
 	constructor(props) {
