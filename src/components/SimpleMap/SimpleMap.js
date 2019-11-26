@@ -65,8 +65,7 @@ export class SimpleMap extends React.Component {
                     height: "100%"
                 }}
                 defaultOptions={{
-                    zoomControl: false,
-                    maxZoom: 18,
+                    maxZoom: 8,
                 }}
                 initialCenter={{
                     lat: 38.042081,
@@ -82,7 +81,7 @@ export class SimpleMap extends React.Component {
                         onClose={this.onClose}
                     >
                         <div>
-                            <img src={'http://127.0.0.1:8000/images/' + this.state.activeMarker.title} alt={this.state.activeMarker.name} className="mapImg" />
+                            <img src={'http://10.0.1.148:8000/images/' + this.state.activeMarker.title} alt={this.state.activeMarker.name} className="mapImg" />
                         </div>
                     </InfoWindow>
                     : null}

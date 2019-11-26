@@ -3,7 +3,7 @@ import Axios from "axios";
 function __get(url, token) {
     return Axios({
         url: url,
-        baseURL: "http://127.0.0.1:8000/api/",
+        baseURL: "http://10.0.1.148:8000/api/",
         method: "get",
         headers: { Authorization: "Bearer " + token },
     })
@@ -19,7 +19,7 @@ function __get(url, token) {
 function __post(data, url, token) {
     return Axios({
         url: url,
-        baseURL: "http://127.0.0.1:8000/api/",
+        baseURL: "http://10.0.1.148:8000/api/",
         method: "post",
         data: data,
         headers: { Authorization: "Bearer " + token },

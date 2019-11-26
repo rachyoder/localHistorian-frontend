@@ -1,6 +1,7 @@
 import React from "react";
 import { Table } from "reactstrap";
-
+import API_Calls from "../../utilities/Axios";
+import "./MarkerTable.css";
 
 export default class MarkerTable extends React.Component {
     constructor(props) {
@@ -18,9 +19,21 @@ export default class MarkerTable extends React.Component {
     }
 
     render() {
-        const Markers = [];
+        const Markers = this.state.data.map((marker, idx) => {
+            return (
+                <tr key={idx}>
+                    <td>{marker.title}</td>
+                    <td>{marker.desc}</td>
+                    <td>{marker.addr}</td>
+                    <td>
+                        <img src={"http://10.0.1.148:8000/images/" + marker.filename} alt={marker.title} className="tableImg" />
+                    </td>
+                </tr>
+            );
+        })
+
         return (
-            <Table hover>
+            <Table className="mt-5" hover>
                 <thead>
                     <tr>
                         <th>Title</th>
@@ -30,7 +43,7 @@ export default class MarkerTable extends React.Component {
                     </tr>
                 </thead>
                 <tbody>
-
+                    {Markers}
                 </tbody>
             </Table>
         );

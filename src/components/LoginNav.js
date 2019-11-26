@@ -105,7 +105,7 @@ export default class LoginNav extends React.Component {
                         </ModalFooter>
                     </Form>
                 </Modal>
-            </React.Fragment >
+            </React.Fragment>
         );
     }
 }
