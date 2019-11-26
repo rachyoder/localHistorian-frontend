@@ -29,10 +29,10 @@ export default class SimpleNavbar extends React.Component {
                         <Collapse isOpen={this.state.isOpen} navbar>
                             <Nav className="ml-auto" navbar>
                                 <NavItem>
-                                    <NavLink tag={Link} to="/table">Database</NavLink>
+                                    <NavLink tag={Link} to="/">Map</NavLink>
                                 </NavItem>
                                 <NavItem>
-                                    <NavLink tag={Link} to="/">Map</NavLink>
+                                    <NavLink tag={Link} to="/table">Database</NavLink>
                                 </NavItem>
                                 <NavItem>
                                     {this.props.token === "" ?

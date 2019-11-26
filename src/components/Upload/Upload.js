@@ -169,7 +169,7 @@ export default class Upload extends React.Component {
 	render() {
 		return (
 			<React.Fragment>
-				<Alert color={this.state.alertColor} isOpen={this.state.visible} toggle={this.onDismiss} >{this.state.resThrown}</Alert>
+				<Alert color={this.state.alertColor} isOpen={this.state.visible} toggle={this.onDismiss} className="submit-status" >{this.state.resThrown}</Alert>
 				<div className="float-right mb-3 mr-4">
 					<Form onSubmit={this.onFormSubmit}>
 						<input type="file" id="file" onChange={this.onChange} required accept="image/*" capture="environment" />

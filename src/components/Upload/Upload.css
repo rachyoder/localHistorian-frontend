@@ -43,9 +43,9 @@
   border-right: 1px solid white;
 }
 
-.alert {
+.submit-status {
   z-index: 99999;
   margin-left: auto !important;
   margin-right: auto !important;
-  /* position: relative !important; */
+  position: relative !important;
 }
