@@ -46,7 +46,7 @@ export default class SimpleNavbar extends React.Component {
                     </Navbar>
                     <Switch>
                         <Route path="/table">
-                            <MarkerTable />
+                            <MarkerTable token={this.props.token} />
                         </Route>
                         <Route path="/">
                             <SimpleMap />

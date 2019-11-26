@@ -5,7 +5,7 @@ import EXIF from "exif-js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Geocode from "react-geocode";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
-import { Form, Button, Modal, ModalHeader, ModalBody, ModalFooter, Spinner, Input, Label, FormGroup, Alert } from "reactstrap";
+import { Form, Button, Modal, ModalHeader, ModalBody, ModalFooter, Spinner, Input, Label, FormGroup } from "reactstrap";
 
 export default class Upload extends React.Component {
 	constructor(props) {
@@ -17,25 +17,22 @@ export default class Upload extends React.Component {
 			title: '',
 			desc: '',
 			addr: '',
-			resThrown: '',
 			modal: false,
-			visible: false,
 		}
 		this.getAddress = this.getAddress.bind(this);
 		this.success = this.success.bind(this);
 		this.error = this.error.bind(this);
 		this.onChange = this.onChange.bind(this);
 		this.toggleModal = this.toggleModal.bind(this);
-		this.onDismiss = this.onDismiss.bind(this);
 		this.handleChange = this.handleChange.bind(this);
 		this.onFormSubmit = this.onFormSubmit.bind(this);
 		this.fileUpload = this.fileUpload.bind(this);
 		this.getExif = this.getExif.bind(this);
 	}
 
-	getAddress(lat, lng) {
+	async getAddress(lat, lng) {
 		Geocode.setApiKey("AIzaSyC5Xu9GUoqhCX8nRYfXaqkA1saAs-hXH4k");
-		Geocode.fromLatLng(lat, lng)
+		await Geocode.fromLatLng(lat, lng)
 			.then(res => {
 				console.log(res.results[0].formatted_address);
 				this.setState({ addr: res.results[0].formatted_address });
@@ -45,7 +42,7 @@ export default class Upload extends React.Component {
 	/* Pulling Location Data and Checking for Success or Failure */
 	success(pos) {
 		let coords = pos.coords.latitude + ',' + pos.coords.longitude;
-		if (this.state.addr === '') {
+		if (this.state.photoCoords === '') {
 			this.getAddress(pos.coords.latitude, pos.coords.longitude);
 		}
 		this.setState({
@@ -74,10 +71,6 @@ export default class Upload extends React.Component {
 		});
 	}
 
-	onDismiss() {
-		this.setState({ visible: (!this.state.visible) });
-	}
-
 	/* Pull any Form Data entered */
 	handleChange(event) {
 		this.setState({ [event.target.name]: event.target.value });
@@ -103,37 +96,25 @@ export default class Upload extends React.Component {
 	async fileUpload() {
 		await this.getExif();
 		const url = '/fileupload';
-		const formData = (this.state.photoCoords === '') ?
-			{
-				file: this.state.image,
-				coords: this.state.deviceCoords,
-				title: this.state.title,
-				desc: this.state.desc,
-				addr: this.state.addr,
-			} :
-			{
-				file: this.state.image,
-				coords: this.state.photoCoords,
-				title: this.state.title,
-				desc: this.state.desc,
-				addr: this.state.addr,
-			};
+		const coords = (this.state.photoCoords === '') ?
+			(this.state.deviceCoords) :
+			(this.state.photoCoords);
+		const formData = {
+			file: this.state.image,
+			coords: (coords),
+			title: this.state.title,
+			desc: this.state.desc,
+			addr: this.state.addr,
+		}
 
 		API_Calls.__post(formData, url, this.props.token)
 			.then(res => {
 				if (res.status === 200) {
-					this.setState({
-						resThrown: 'Image Submitted Successfully!',
-						alertColor: 'success',
-					});
+					this.props.setAlertStatus("success", "Image Submitted Successfully!");
 				} else if (res.response.status === 401) {
-					this.setState({
-						resThrown: 'Unable to submit photo. You must have an account and be logged in to use this feature',
-						alertColor: 'danger',
-					});
+					this.props.setAlertStatus("danger", "Unable to submit photo. You must have an account and be logged in to use this feature.")
 				}
 				this.toggleModal();
-				this.setState({ visible: true });
 			})
 			.catch(error => {
 				console.log(error);
@@ -160,7 +141,7 @@ export default class Upload extends React.Component {
 
 			lat_dd = lat_dd.toFixed(4);
 			lon_dd = lon_dd.toFixed(4);
-			this.getAddress(lat_dd, lon_dd);
+			await this.getAddress(lat_dd, lon_dd);
 			let dd_coords = lat_dd + "," + lon_dd;
 			this.setState({ photoCoords: dd_coords });
 		}
@@ -169,7 +150,6 @@ export default class Upload extends React.Component {
 	render() {
 		return (
 			<React.Fragment>
-				<Alert color={this.state.alertColor} isOpen={this.state.visible} toggle={this.onDismiss} className="submit-status" >{this.state.resThrown}</Alert>
 				<div className="float-right mb-3 mr-4">
 					<Form onSubmit={this.onFormSubmit}>
 						<input type="file" id="file" onChange={this.onChange} required accept="image/*" capture="environment" />
@@ -182,11 +162,11 @@ export default class Upload extends React.Component {
 								<img src={this.state.image} className="display-img" id="get-exif" alt="" />
 								<FormGroup className="mt-3">
 									<Label for="markerTitle">Title</Label>
-									<Input type="text" name="title" id="markerTitle" onChange={this.handleChange} />
+									<Input type="text" name="title" id="markerTitle" onChange={this.handleChange} required />
 								</FormGroup>
 								<FormGroup>
 									<Label for="markerBody">Marker Contents</Label>
-									<Input type="textarea" name="desc" id="markerBody" onChange={this.handleChange} />
+									<Input type="textarea" name="desc" id="markerBody" onChange={this.handleChange} required />
 								</FormGroup>
 							</ModalBody>
 							<ModalFooter className="bg-dark text-light">

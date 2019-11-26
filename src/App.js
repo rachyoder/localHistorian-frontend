@@ -15,10 +15,20 @@ export default class App extends React.Component {
 			lat: '',
 			lng: '',
 		}
+		this.setAlertStatus = this.setAlertStatus.bind(this);
 		this.getLoginToken = this.getLoginToken.bind(this);
 		this.displayLocation = this.displayLocation.bind(this);
 		this.deniedLocation = this.deniedLocation.bind(this);
 		this.onDismiss = this.onDismiss.bind(this);
+	}
+
+	setAlertStatus(alertColor, alertStatus) {
+		this.setState({
+			alertColor: alertColor,
+			alertStatus: alertStatus,
+			visible: true,
+		})
+
 	}
 
 	getLoginToken(userToken) {
@@ -32,7 +42,7 @@ export default class App extends React.Component {
 		})
 	}
 	deniedLocation(error) {
-		this.setState({ visible: true });
+		this.setAlertStatus("danger", "This website uses location data in order to accurately track the position of Historical Markers, as well as many other features on this site. Please enable location data on this website to continue.");
 	}
 	onDismiss() {
 		this.setState({ visible: (!this.state.visible) });
@@ -45,7 +55,7 @@ export default class App extends React.Component {
 		if (navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition(this.displayLocation, this.deniedLocation);
 		} else {
-			this.setState({ visible: true });
+			this.setAlertStatus("danger", "This website uses location data in order to accurately track the position of Historical Markers, as well as many other features on this site. Please enable location data on this website to continue.");
 		}
 
 	}
@@ -54,9 +64,9 @@ export default class App extends React.Component {
 		return (
 			<React.Fragment>
 				<SimpleNavbar token={this.state.token} getTokenMethod={this.getLoginToken} />
-				<Alert color="danger" isOpen={this.state.visible} toggle={this.onDismiss} >This website uses location data in order to accurately track the position of Historical Markers, as well as many other features on this site. Please enable location data on this website to continue.</Alert>
+				<Alert color={this.state.alertColor} isOpen={this.state.visible} toggle={this.onDismiss} >{this.state.alertStatus}</Alert>
 				<footer className="fixed-bottom">
-					<Upload token={this.state.token} />
+					<Upload token={this.state.token} setAlertStatus={this.setAlertStatus} />
 				</footer>
 			</React.Fragment>
 		);
