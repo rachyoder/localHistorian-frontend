@@ -1,10 +1,11 @@
-import React from 'react';
-import './App.css';
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/js/bootstrap';
-import { Alert } from 'reactstrap';
-import SimpleNavbar from './components/SimpleNavbar';
-import Upload from './components/Upload/Upload';
+import React from "react";
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap/dist/js/bootstrap";
+import SimpleNavbar from "./components/SimpleNavbar";
+import Upload from "./components/Upload/Upload";
+import { Alert } from "reactstrap";
+import { MobileView } from "react-device-detect";
 
 export default class App extends React.Component {
 	constructor(props) {
@@ -50,7 +51,7 @@ export default class App extends React.Component {
 
 	componentDidMount() {
 		if (localStorage.length > 0) {
-			this.setState({ token: localStorage.getItem('token') });
+			this.setState({ token: localStorage.getItem("token") });
 		}
 		if (navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition(this.displayLocation, this.deniedLocation);
@@ -63,11 +64,13 @@ export default class App extends React.Component {
 	render() {
 		return (
 			<React.Fragment>
-				<SimpleNavbar token={this.state.token} getTokenMethod={this.getLoginToken} />
 				<Alert color={this.state.alertColor} isOpen={this.state.visible} toggle={this.onDismiss} >{this.state.alertStatus}</Alert>
-				<footer className="fixed-bottom">
-					<Upload token={this.state.token} setAlertStatus={this.setAlertStatus} />
-				</footer>
+				<SimpleNavbar token={this.state.token} getTokenMethod={this.getLoginToken} />
+				<MobileView>
+					<footer className="fixed-bottom">
+						<Upload token={this.state.token} setAlertStatus={this.setAlertStatus} />
+					</footer>
+				</MobileView>
 			</React.Fragment>
 		);
 	}

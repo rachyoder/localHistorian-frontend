@@ -2,6 +2,7 @@ import React from "react";
 import { Map, GoogleApiWrapper, Marker, InfoWindow } from "google-maps-react";
 import API_Calls from "../../utilities/Axios";
 import "./SimpleMap.css";
+import Image from "../Image/Image";
 
 export class SimpleMap extends React.Component {
     constructor(props) {
@@ -11,8 +12,10 @@ export class SimpleMap extends React.Component {
             activeMarker: {},
             selectedPlace: {},
             data: [],
+
         }
         this.MarkerGetter = this.MarkerGetter.bind(this);
+        this.closeInfoWindow = this.closeInfoWindow.bind(this);
     }
 
     onMarkerClick = (props, marker, e) => {
@@ -27,10 +30,16 @@ export class SimpleMap extends React.Component {
         if (this.state.showingInfoWindow) {
             this.setState({
                 showingInfoWindow: false,
-                activeMarker: null
+                activeMarker: {}
             });
         }
     };
+
+    closeInfoWindow() {
+        if (this.state.showingInfoWindow) {
+            this.setState({ showingInfoWindow: false });
+        }
+    }
 
     async MarkerGetter() {
         await API_Calls.__get('/markers', '')
@@ -55,11 +64,11 @@ export class SimpleMap extends React.Component {
                 />
             );
         })
-
         return (
             <Map
                 google={this.props.google}
                 zoom={14}
+                onClick={this.closeInfoWindow}
                 style={{
                     width: "100%",
                     height: "100%"
@@ -81,7 +90,13 @@ export class SimpleMap extends React.Component {
                         onClose={this.onClose}
                     >
                         <div>
-                            <img src={'http://10.0.1.148:8000/images/' + this.state.activeMarker.title} alt={this.state.activeMarker.name} className="mapImg" />
+                            <img
+                                src={
+
+                                    "http://10.0.1.148:8000/images/" + this.state.activeMarker.title}
+                                className="mapImg"
+                                alt={this.state.activeMarker.name}
+                            />
                         </div>
                     </InfoWindow>
                     : null}

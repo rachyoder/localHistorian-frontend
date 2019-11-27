@@ -5,15 +5,17 @@ import EXIF from "exif-js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Geocode from "react-geocode";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
+import {isMobile} from "react-device-detect";
 import { Form, Button, Modal, ModalHeader, ModalBody, ModalFooter, Spinner, Input, Label, FormGroup } from "reactstrap";
 
 export default class Upload extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			image: '',
+			image: null,
 			deviceCoords: '',
 			photoCoords: '',
+			orientation: '',
 			title: '',
 			desc: '',
 			addr: '',
@@ -124,12 +126,13 @@ export default class Upload extends React.Component {
 	/* Getting Location Data from Photo, if not available, backup is pulled from device location */
 	async getExif() {
 		let img1 = document.getElementById("get-exif");
-		let lat, lon, lat_cardinal, lon_cardinal;
+		let lat, lon, lat_cardinal, lon_cardinal, orientation;
 		EXIF.getData(img1, function () {
 			lat = EXIF.getTag(this, "GPSLatitude");
 			lon = EXIF.getTag(this, "GPSLongitude");
 			lat_cardinal = EXIF.getTag(this, "GPSLatitudeRef");
 			lon_cardinal = EXIF.getTag(this, "GPSLongitudeRef");
+			orientation = EXIF.getTag(this, "Orientation");
 		});
 
 		if (lat !== undefined) {
@@ -143,7 +146,10 @@ export default class Upload extends React.Component {
 			lon_dd = lon_dd.toFixed(4);
 			await this.getAddress(lat_dd, lon_dd);
 			let dd_coords = lat_dd + "," + lon_dd;
-			this.setState({ photoCoords: dd_coords });
+			this.setState({ 
+				photoCoords: dd_coords,
+				orientation: orientation,
+			});
 		}
 	}
 
@@ -159,7 +165,9 @@ export default class Upload extends React.Component {
 								Upload This Image?
 						</ModalHeader>
 							<ModalBody className="bg-dark text-light">
-								<img src={this.state.image} className="display-img" id="get-exif" alt="" />
+								<div className="container">
+									<img src={this.state.image} className="display-img" id="get-exif" alt="" />
+								</div>
 								<FormGroup className="mt-3">
 									<Label for="markerTitle">Title</Label>
 									<Input type="text" name="title" id="markerTitle" onChange={this.handleChange} required />
