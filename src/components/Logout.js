@@ -15,6 +15,7 @@ export default class Logout extends React.Component {
     verifyLogout() {
         API_Calls.__get("/logout", this.props.token);
         localStorage.removeItem("token");
+        localStorage.removeItem("isAdmin");
         this.props.clearToken("");
     }
 

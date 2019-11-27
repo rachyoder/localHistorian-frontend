@@ -12,12 +12,14 @@ export default class App extends React.Component {
 		super(props);
 		this.state = {
 			token: '',
+			isAdmin: 0,
 			visible: false,
 			lat: '',
 			lng: '',
 		}
 		this.setAlertStatus = this.setAlertStatus.bind(this);
 		this.getLoginToken = this.getLoginToken.bind(this);
+		this.checkAdminStatus = this.checkAdminStatus.bind(this);
 		this.displayLocation = this.displayLocation.bind(this);
 		this.deniedLocation = this.deniedLocation.bind(this);
 		this.onDismiss = this.onDismiss.bind(this);
@@ -36,6 +38,10 @@ export default class App extends React.Component {
 		this.setState({ token: userToken });
 	}
 
+	checkAdminStatus(admin) {
+		this.setState({ isAdmin: admin });
+	}
+
 	displayLocation(position) {
 		this.setState({
 			lat: position.coords.latitude,
@@ -51,7 +57,10 @@ export default class App extends React.Component {
 
 	componentDidMount() {
 		if (localStorage.length > 0) {
-			this.setState({ token: localStorage.getItem("token") });
+			this.setState({ 
+				token: localStorage.getItem("token"),
+				isAdmin: localStorage.getItem("isAdmin"),
+			});
 		}
 		if (navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition(this.displayLocation, this.deniedLocation);
@@ -64,11 +73,27 @@ export default class App extends React.Component {
 	render() {
 		return (
 			<React.Fragment>
-				<Alert color={this.state.alertColor} isOpen={this.state.visible} toggle={this.onDismiss} >{this.state.alertStatus}</Alert>
-				<SimpleNavbar token={this.state.token} getTokenMethod={this.getLoginToken} />
+				<Alert
+					color={this.state.alertColor}
+					isOpen={this.state.visible}
+					toggle={this.onDismiss}
+				>
+					{this.state.alertStatus}
+				</Alert>
+				<SimpleNavbar
+					token={this.state.token}
+					admin={this.state.isAdmin}
+					getTokenMethod={this.getLoginToken}
+					checkAdmin={this.checkAdminStatus}
+				/>
 				<MobileView>
-					<footer className="fixed-bottom">
-						<Upload token={this.state.token} setAlertStatus={this.setAlertStatus} />
+					<footer
+						className="fixed-bottom"
+					>
+						<Upload
+							token={this.state.token}
+							setAlertStatus={this.setAlertStatus}
+						/>
 					</footer>
 				</MobileView>
 			</React.Fragment>

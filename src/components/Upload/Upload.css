@@ -35,13 +35,17 @@
   outline: -webkit-focus-ring-color auto 5px;
 }
 
+.container {
+  margin: 70px 0;
+}
+
 .display-img {
   max-width: 100%;
   border-radius: 15px;
   border-top: 1px solid white;
   border-right: 1px solid white;
-  /* transform:rotate(90deg);
-  transform-origin: center; */
+  transform:rotate(90deg);
+  transform-origin: center;
   /* margin-right: 5rem; */
 }
 

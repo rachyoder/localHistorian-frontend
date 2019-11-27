@@ -1,5 +1,8 @@
 .mapImg {
-    max-width: 15rem;
-    max-height: 15rem;
+    max-width: 10rem;
+    max-height: 10rem;
     border-radius: 5%;
+    transform: rotate(90deg);
+    transform-origin: center;
+    margin: 30px 0;
 }

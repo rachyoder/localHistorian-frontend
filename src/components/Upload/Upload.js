@@ -169,11 +169,11 @@ export default class Upload extends React.Component {
 									<img src={this.state.image} className="display-img" id="get-exif" alt="" />
 								</div>
 								<FormGroup className="mt-3">
-									<Label for="markerTitle">Title</Label>
+									<Label for="markerTitle">Title of Marker</Label>
 									<Input type="text" name="title" id="markerTitle" onChange={this.handleChange} required />
 								</FormGroup>
 								<FormGroup>
-									<Label for="markerBody">Marker Contents</Label>
+									<Label for="markerBody">Body of Marker</Label>
 									<Input type="textarea" name="desc" id="markerBody" onChange={this.handleChange} required />
 								</FormGroup>
 							</ModalBody>

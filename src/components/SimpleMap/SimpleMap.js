@@ -2,7 +2,6 @@ import React from "react";
 import { Map, GoogleApiWrapper, Marker, InfoWindow } from "google-maps-react";
 import API_Calls from "../../utilities/Axios";
 import "./SimpleMap.css";
-import Image from "../Image/Image";
 
 export class SimpleMap extends React.Component {
     constructor(props) {
@@ -91,9 +90,7 @@ export class SimpleMap extends React.Component {
                     >
                         <div>
                             <img
-                                src={
-
-                                    "http://10.0.1.148:8000/images/" + this.state.activeMarker.title}
+                                src={"http://10.0.1.148:8000/images/" + this.state.activeMarker.title}
                                 className="mapImg"
                                 alt={this.state.activeMarker.name}
                             />

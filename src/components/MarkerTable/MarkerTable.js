@@ -58,17 +58,23 @@ export default class MarkerTable extends React.Component {
         const Markers = this.state.data.map((marker, idx) => {
             return (
                 <tr key={idx}>
+                    {this.props.admin ? (
                     <td>
                         {marker.isVerified ? <input type="checkbox" name={marker.id} onChange={this.isChecked} checked /> : <input type="checkbox" name={marker.id} onChange={this.isChecked} /> }
+                        <div id={marker.id} onClick={this.delete}>X</div>
                     </td>
-                    <td>{marker.title}</td>
-                    <td>{marker.desc}</td>
-                    <td>{marker.addr}</td>
+                    ) : (
+                        null
+                    )}
+                    <td>
+                        {marker.title}
+                        <br/>
+                        {marker.desc}
+                        <br/>
+                        {marker.addr}
+                    </td>
                     <td>
                         <img src={"http://10.0.1.148:8000/images/" + marker.filename} alt={marker.title} className="tableImg" />
-                    </td>
-                    <td>
-                        <div id={marker.id} onClick={this.delete}>X</div>
                     </td>
                 </tr>
             );
@@ -77,16 +83,13 @@ export default class MarkerTable extends React.Component {
         return (
             <div className="container mt-5">
                 <Form onSubmit={this.submit}>
-                    <Button className="mt-3" >Submit Changes</Button>
+                    {this.props.admin ? <Button className="mt-3" >Submit Changes</Button> : null }
                     <Table className="mt-3" hover>
                         <thead>
                             <tr>
-                                <th>Verify Photos</th>
-                                <th>Title</th>
-                                <th>Body</th>
-                                <th>Location</th>
+                                {this.props.admin ? <th>Verify or Delete</th> : null }
+                                <th>Marker Content</th>
                                 <th>Image</th>
-                                <th>Delete</th>
                             </tr>
                         </thead>
                         <tbody>

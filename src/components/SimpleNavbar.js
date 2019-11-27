@@ -37,7 +37,7 @@ export default class SimpleNavbar extends React.Component {
                                 <NavItem>
                                     {this.props.token === "" ?
                                         (
-                                            <LoginNav getTokenMethod={this.props.getTokenMethod} />
+                                            <LoginNav getTokenMethod={this.props.getTokenMethod} checkAdmin={this.props.checkAdmin} />
                                         ) : (
                                             <Logout token={this.props.token} clearToken={this.props.getTokenMethod} />)}
                                 </NavItem>
@@ -46,7 +46,7 @@ export default class SimpleNavbar extends React.Component {
                     </Navbar>
                     <Switch>
                         <Route path="/table">
-                            <MarkerTable token={this.props.token} />
+                            <MarkerTable token={this.props.token} admin={this.props.admin} />
                         </Route>
                         <Route path="/">
                             <SimpleMap />

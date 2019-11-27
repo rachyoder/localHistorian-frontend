@@ -63,6 +63,11 @@ export default class LoginNav extends React.Component {
                     localStorage.setItem("token", token);
                     this.setState({ modal: !this.state.modal });
                     this.props.getTokenMethod(token);
+                    if (this.state.activeTab === '1') {
+                        let isAdmin = res.data.isAdmin;
+                        localStorage.setItem("isAdmin", isAdmin);
+                        this.props.checkAdmin(isAdmin);
+                    }
                 } else if (res.response.status === 422) {
                     this.setState({ errorThrown: res.response.data + " - Check credentials and Try Again" });
                 }
