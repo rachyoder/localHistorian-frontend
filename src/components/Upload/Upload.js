@@ -5,7 +5,6 @@ import EXIF from "exif-js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Geocode from "react-geocode";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
-import {isMobile} from "react-device-detect";
 import { Form, Button, Modal, ModalHeader, ModalBody, ModalFooter, Spinner, Input, Label, FormGroup } from "reactstrap";
 
 export default class Upload extends React.Component {

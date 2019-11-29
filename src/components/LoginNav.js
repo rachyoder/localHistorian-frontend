@@ -69,7 +69,7 @@ export default class LoginNav extends React.Component {
                         this.props.checkAdmin(isAdmin);
                     }
                 } else if (res.response.status === 422) {
-                    this.setState({ errorThrown: res.response.data + " - Check credentials and Try Again" });
+                    this.setState({ errorThrown: "Error Occurred - Check credentials and Try Again" });
                 }
             })
             .catch(error => {

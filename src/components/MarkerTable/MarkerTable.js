@@ -1,5 +1,5 @@
 import React from "react";
-import { Table, Form, Button } from "reactstrap";
+import { Form, Button, Card, CardBody, CardTitle, CardText, CardImg, CardFooter, CardDeck } from "reactstrap";
 import API_Calls from "../../utilities/Axios";
 import "./MarkerTable.css";
 
@@ -28,13 +28,13 @@ export default class MarkerTable extends React.Component {
         const value = e.target.checked ? 1 : 0;
         const checkedValues = { id: Number(e.target.name), verify: value };
         console.log(checkedValues);
-        this.setState({ verified: [...this.state.verified, checkedValues]});
+        this.setState({ verified: [...this.state.verified, checkedValues] });
     }
 
     submit(e) {
         e.preventDefault();
         console.log(this.state.verified);
-        API_Calls.__post({'verified': this.state.verified}, '/verify', this.props.token)
+        API_Calls.__post({ 'verified': this.state.verified }, '/verify', this.props.token)
             .then(res => {
                 console.log(res);
             })
@@ -57,47 +57,45 @@ export default class MarkerTable extends React.Component {
     render() {
         const Markers = this.state.data.map((marker, idx) => {
             return (
-                <tr key={idx}>
-                    {this.props.admin ? (
-                    <td>
-                        {marker.isVerified ? <input type="checkbox" name={marker.id} onChange={this.isChecked} checked /> : <input type="checkbox" name={marker.id} onChange={this.isChecked} /> }
-                        <div id={marker.id} onClick={this.delete}>X</div>
-                    </td>
-                    ) : (
-                        null
-                    )}
-                    <td>
-                        {marker.title}
-                        <br/>
-                        {marker.desc}
-                        <br/>
-                        {marker.addr}
-                    </td>
-                    <td>
-                        <img src={"http://10.0.1.148:8000/images/" + marker.filename} alt={marker.title} className="tableImg" />
-                    </td>
-                </tr>
+                <div className="mt-3 col-lg-4" key={idx}>
+                    <Card className="m-3" >
+                        <div className="imgContainer">
+                            <CardImg className="mt-3 imgStyle" src={"http://192.168.86.240:8000/images/" + marker.filename} alt="Card image cap" />
+                        </div>
+                        <CardBody>
+                            <CardTitle className="text-center"><strong>{marker.title}</strong></CardTitle>
+                            <CardText>{marker.desc}</CardText>
+                            <CardText>
+                                <small className="text-muted">{marker.addr}</small>
+                            </CardText>
+                        </CardBody>
+                        {this.props.admin ? (
+                            <CardFooter>
+                                {marker.isVerified ? <input type="checkbox" name={marker.id} onChange={this.isChecked} checked /> : <input type="checkbox" name={marker.id} onChange={this.isChecked} />}
+                                <span className="text-center text-muted">Verify | Delete</span>
+                                <div className="text-muted float-right" id={marker.id} onClick={this.delete}>X</div>
+                            </CardFooter>
+                        ) : (
+                                null
+                            )}
+                    </Card>
+                </div>
             );
         })
 
         return (
-            <div className="container mt-5">
                 <Form onSubmit={this.submit}>
-                    {this.props.admin ? <Button className="mt-3" >Submit Changes</Button> : null }
-                    <Table className="mt-3" hover>
-                        <thead>
-                            <tr>
-                                {this.props.admin ? <th>Verify or Delete</th> : null }
-                                <th>Marker Content</th>
-                                <th>Image</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                    {this.props.admin ? (
+                        <div className="row">
+                            <Button color="info" className="btn-block" >Verify Selected</Button>
+                        </div>
+                    ) : null}
+                    <div className="row">
+                        <CardDeck>
                             {Markers}
-                        </tbody>
-                    </Table>
+                        </CardDeck>
+                    </div>
                 </Form>
-            </div>
         );
     }
 }

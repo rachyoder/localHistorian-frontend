@@ -1,4 +1,10 @@
-.tableImg {
-    max-height: 15rem;
-    max-width: 15rem;
+.imgContainer {
+    margin: 40px auto;
+}
+
+.imgStyle {
+    max-height: 20rem;
+    max-width: 20rem;
+    transform: rotate(90deg);
+    transform-origin: center;
 }

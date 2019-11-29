@@ -2,7 +2,7 @@ import React from "react";
 import LoginNav from "./LoginNav";
 import Logout from "./Logout";
 import MarkerTable from "./MarkerTable/MarkerTable";
-import SimpleMap from "./SimpleMap/SimpleMap";    
+import SimpleMap from "./SimpleMap/SimpleMap";
 import { Navbar, NavbarBrand, NavbarToggler, Collapse, Nav, NavItem, NavLink } from "reactstrap";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
@@ -24,7 +24,7 @@ export default class SimpleNavbar extends React.Component {
             <React.Fragment>
                 <Router>
                     <Navbar color="dark" dark fixed={"top"} expand="md">
-                        <NavbarBrand href="/" className="mr-auto"><span className="text-info">local</span>Historian</NavbarBrand>
+                        <NavbarBrand href="/" className="mr-auto custom-font font-light"><span className="text-info custom-font">local</span>Historian</NavbarBrand>
                         <NavbarToggler onClick={this.toggle} />
                         <Collapse isOpen={this.state.isOpen} navbar>
                             <Nav className="ml-auto" navbar>
@@ -44,14 +44,16 @@ export default class SimpleNavbar extends React.Component {
                             </Nav>
                         </Collapse>
                     </Navbar>
-                    <Switch>
-                        <Route path="/table">
-                            <MarkerTable token={this.props.token} admin={this.props.admin} />
-                        </Route>
-                        <Route path="/">
-                            <SimpleMap />
-                        </Route>
-                    </Switch>
+                    <div className="container">
+                        <Switch>
+                            <Route path="/table">
+                                <MarkerTable token={this.props.token} admin={this.props.admin} />
+                            </Route>
+                            <Route path="/">
+                                <SimpleMap />
+                            </Route>
+                        </Switch>
+                    </div>
                 </Router>
             </React.Fragment>
         )
