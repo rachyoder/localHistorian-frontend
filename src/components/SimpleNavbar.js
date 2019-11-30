@@ -44,16 +44,14 @@ export default class SimpleNavbar extends React.Component {
                             </Nav>
                         </Collapse>
                     </Navbar>
-                    <div className="container">
-                        <Switch>
-                            <Route path="/table">
-                                <MarkerTable token={this.props.token} admin={this.props.admin} />
-                            </Route>
-                            <Route path="/">
-                                <SimpleMap />
-                            </Route>
-                        </Switch>
-                    </div>
+                    <Switch>
+                        <Route path="/table">
+                            <MarkerTable token={this.props.token} admin={this.props.admin} />
+                        </Route>
+                        <Route path="/">
+                            <SimpleMap />
+                        </Route>
+                    </Switch>
                 </Router>
             </React.Fragment>
         )

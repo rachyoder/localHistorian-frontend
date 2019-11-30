@@ -53,7 +53,7 @@ export class SimpleMap extends React.Component {
 
     render() {
         const Markers = this.state.data.map((marker, idx) => {
-            return (
+            return (marker.isVerified) ? (
                 <Marker
                     key={idx}
                     onClick={this.onMarkerClick}
@@ -61,6 +61,8 @@ export class SimpleMap extends React.Component {
                     name={marker.title}
                     title={marker.filename}
                 />
+            ) : (
+                null
             );
         })
         return (
