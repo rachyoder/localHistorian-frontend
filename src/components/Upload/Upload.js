@@ -35,7 +35,6 @@ export default class Upload extends React.Component {
 		Geocode.setApiKey("AIzaSyC5Xu9GUoqhCX8nRYfXaqkA1saAs-hXH4k");
 		await Geocode.fromLatLng(lat, lng)
 			.then(res => {
-				console.log(res.results[0].formatted_address);
 				this.setState({ addr: res.results[0].formatted_address });
 			});
 	}

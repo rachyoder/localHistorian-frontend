@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Button, Card, CardBody, CardTitle, CardText, CardImg, CardFooter, CardDeck, Container } from "reactstrap";
+import { Form, Button, Card, CardBody, CardTitle, CardText, CardImg, CardFooter, Row, Col } from "reactstrap";
 import API_Calls from "../../utilities/Axios";
 import "./MarkerTable.css";
 
@@ -27,16 +27,15 @@ export default class MarkerTable extends React.Component {
     isChecked(e) {
         const value = e.target.checked ? 1 : 0;
         const checkedValues = { id: Number(e.target.name), verify: value };
-        console.log(checkedValues);
         this.setState({ verified: [...this.state.verified, checkedValues] });
     }
 
     submit(e) {
         e.preventDefault();
-        console.log(this.state.verified);
         API_Calls.__post({ 'verified': this.state.verified }, '/verify', this.props.token)
             .then(res => {
                 console.log(res);
+                this.getMarkersTable();
             })
             .catch(error => {
                 console.log(error);
@@ -58,10 +57,10 @@ export default class MarkerTable extends React.Component {
         const Markers = this.state.data.map((marker, idx) => {
             return (
                 this.props.admin ? (
-                    <div className="mt-3 col-lg-4" key={idx}>
+                    <Col sm="4" key={idx}>
                         <Card className="m-3" >
                             <div className="imgContainer">
-                                <CardImg className="mt-3 imgStyle" src={"http://192.168.86.240:8000/images/" + marker.filename} alt="Card image cap" />
+                                <CardImg top className="mt-3 imgStyle" src={"https://local-historian.appspot.com/images/" + marker.filename} alt="Card image cap" />
                             </div>
                             <CardBody>
                                 <CardTitle className="text-center"><strong>{marker.title}</strong></CardTitle>
@@ -71,19 +70,21 @@ export default class MarkerTable extends React.Component {
                                 </CardText>
                             </CardBody>
                             <CardFooter>
-                                {marker.isVerified ?
-                                    <input type="checkbox" name={marker.id} onChange={this.isChecked} checked /> : <input type="checkbox" name={marker.id} onChange={this.isChecked} />}
-                                <span className="text-center text-muted">Verify | Delete</span>
-                                <div className="text-muted float-right" id={marker.id} onClick={this.delete}>x</div>
+                                <div>
+                                    {marker.isVerified ?
+                                        <input type="checkbox" id="verify" className="mx-1" name={marker.id} onChange={this.isChecked} checked /> : <input type="checkbox" id="verify" className="mx-1" name={marker.id} onChange={this.isChecked} />}
+                                    <label htmlFor="verify" className="text-center mt-2 text-muted"> Verify</label>
+                                    <button className="text-muted btn btn-outline-secondary float-right delete" id={marker.id} onClick={this.delete}>Delete</button>
+                                </div>
                             </CardFooter>
                         </Card>
-                    </div>
+                    </Col>
                 ) : (
                         (marker.isVerified) ? (
-                            <div className="mt-3 col-lg-4" key={idx}>
-                                <Card className="m-3" >
+                            <div className="mt-5 col-lg-4" key={idx}>
+                                <Card>
                                     <div className="imgContainer">
-                                        <CardImg className="mt-3 imgStyle" src={"http://192.168.86.240:8000/images/" + marker.filename} alt="Card image cap" />
+                                        <CardImg className="mt-3 imgStyle" src={"https://local-historian.appspot.com/images/" + marker.filename} alt="Card image cap" />
                                     </div>
                                     <CardBody>
                                         <CardTitle className="text-center"><strong>{marker.title}</strong></CardTitle>
@@ -102,20 +103,20 @@ export default class MarkerTable extends React.Component {
         })
 
         return (
-            <Container>
-                <Form onSubmit={this.submit}>
-                    {this.props.admin ? (
-                        <div className="row">
-                            <Button color="info" className="btn-block" >Verify Selected</Button>
-                        </div>
-                    ) : (
-                            null
-                        )}
-                    <div className="row">
-                        {Markers}
+            <Form onSubmit={this.submit}>
+                {this.props.admin ? (
+                    <div className="row mt-5 align-items-center">
+                        <Button color="info" className="btn-block mt-3" >Verify Selected</Button>
                     </div>
-                </Form>
-            </Container>
+                ) : (
+                        null
+                    )}
+                <div className="container-fluid mt-3">
+                    <Row>
+                        {Markers}
+                    </Row>
+                </div>
+            </Form>
         );
     }
 }

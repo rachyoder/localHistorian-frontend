@@ -92,7 +92,7 @@ export class SimpleMap extends React.Component {
                     >
                         <div>
                             <img
-                                src={"http://192.168.86.240:8000/images/" + this.state.activeMarker.title}
+                                src={"https://local-historian.appspot.com/images/" + this.state.activeMarker.title}
                                 className="mapImg"
                                 alt={this.state.activeMarker.name}
                             />

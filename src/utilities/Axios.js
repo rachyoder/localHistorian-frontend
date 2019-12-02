@@ -3,7 +3,7 @@ import Axios from "axios";
 function __get(url, token) {
     return Axios({
         url: url,
-        baseURL: "http://192.168.86.240:8000/api/",
+        baseURL: "https://local-historian.appspot.com/api/",
         method: "get",
         headers: { Authorization: "Bearer " + token },
     })
@@ -19,13 +19,13 @@ function __get(url, token) {
 function __post(data, url, token) {
     return Axios({
         url: url,
-        baseURL: "http://192.168.86.240:8000/api/",
+        baseURL: "https://local-historian.appspot.com/api/",
         method: "post",
         data: data,
         headers: { Authorization: "Bearer " + token },
     })
         .then(res => {
-            return res; 
+            return res;
         })
         .catch(error => {
             return error;

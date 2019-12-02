@@ -8,3 +8,7 @@
     transform: rotate(90deg);
     transform-origin: center;
 }
+
+.delete {
+    cursor: pointer;    
+}
