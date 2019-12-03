@@ -6,12 +6,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Geocode from "react-geocode";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import { Form, Button, Modal, ModalHeader, ModalBody, ModalFooter, Spinner, Input, Label, FormGroup } from "reactstrap";
+import Storage from "./Firebase";
+
 
 export default class Upload extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			image: null,
+			image_path: null,
 			deviceCoords: '',
 			photoCoords: '',
 			orientation: '',
@@ -59,6 +62,7 @@ export default class Upload extends React.Component {
 		if (!files.length)
 			return;
 		this.createImage(files[0]);
+		this.setState({ imageFile: files[0] });
 		navigator.geolocation.getCurrentPosition(this.success, this.error);
 		this.toggleModal();
 	}
@@ -95,6 +99,34 @@ export default class Upload extends React.Component {
 	// Upload the Form with Picture
 	async fileUpload() {
 		await this.getExif();
+		const image = this.state.imageFile;
+		const uploadTask = Storage.ref(`images/${image.name}`).put(image);
+		console.log(uploadTask)
+		console.log(`images/${image.name}`)
+		uploadTask.on(
+			"state_changed",
+			snapshot => {
+				// progress function ...
+				const progress = Math.round(
+					(snapshot.bytesTransferred / snapshot.totalBytes) * 100
+				);
+				this.setState({ progress });
+			},
+			error => {
+				console.log(error);
+			},
+			() => {
+				Storage
+					.ref("images")
+					.child(image.name)
+					.getDownloadURL()
+					.then(url => {
+						this.setState({ url });
+						console.log(url);
+					});
+			},
+		)
+		console.log(this.state);
 		const url = '/fileupload';
 		const coords = (this.state.photoCoords === '') ?
 			(this.state.deviceCoords) :
@@ -144,7 +176,7 @@ export default class Upload extends React.Component {
 			lon_dd = lon_dd.toFixed(4);
 			await this.getAddress(lat_dd, lon_dd);
 			let dd_coords = lat_dd + "," + lon_dd;
-			this.setState({ 
+			this.setState({
 				photoCoords: dd_coords,
 				orientation: orientation,
 			});

@@ -24,7 +24,7 @@ export default class SimpleNavbar extends React.Component {
             <React.Fragment>
                 <Router>
                     <Navbar color="dark" dark fixed={"top"} expand="md">
-                        <NavbarBrand href="/" className="mr-auto font-light"><span className="text-info custom-font">local</span>Historian</NavbarBrand>
+                        <NavbarBrand href="/" className="mr-auto custom-font"><span className="text-info font-light">local</span>Historian</NavbarBrand>
                         <NavbarToggler onClick={this.toggle} />
                         <Collapse isOpen={this.state.isOpen} navbar>
                             <Nav className="ml-auto" navbar>
