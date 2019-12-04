@@ -60,7 +60,7 @@ export default class MarkerTable extends React.Component {
                     <Col sm="4" key={idx}>
                         <Card className="m-3" >
                             <div className="imgContainer">
-                                <CardImg top className="mt-3 imgStyle" src={"https://local-historian.appspot.com/images/" + marker.filename} alt="Card image cap" />
+                                <CardImg top className="mt-3 imgStyle" src={marker.filename} alt="Card image cap" />
                             </div>
                             <CardBody>
                                 <CardTitle className="text-center"><strong>{marker.title}</strong></CardTitle>
@@ -84,7 +84,7 @@ export default class MarkerTable extends React.Component {
                             <div className="mt-5 col-lg-4" key={idx}>
                                 <Card>
                                     <div className="imgContainer">
-                                        <CardImg className="mt-3 imgStyle" src={"https://local-historian.appspot.com/images/" + marker.filename} alt="Card image cap" />
+                                        <CardImg className="mt-3 imgStyle" src={marker.filename} alt="Card image cap" />
                                     </div>
                                     <CardBody>
                                         <CardTitle className="text-center"><strong>{marker.title}</strong></CardTitle>
@@ -104,14 +104,14 @@ export default class MarkerTable extends React.Component {
 
         return (
             <Form onSubmit={this.submit}>
-                {this.props.admin ? (
-                    <div className="row mt-5 align-items-center">
-                        <Button color="info" className="btn-block mt-3" >Verify Selected</Button>
-                    </div>
-                ) : (
-                        null
-                    )}
                 <div className="container-fluid mt-3">
+                    {this.props.admin ? (
+                        <div className="row mt-5 align-items-center">
+                            <Button color="info" className="btn-block mt-3" >Verify Selected</Button>
+                        </div>
+                    ) : (
+                            null
+                        )}
                     <Row>
                         {Markers}
                     </Row>

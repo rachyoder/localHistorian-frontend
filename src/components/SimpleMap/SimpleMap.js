@@ -1,6 +1,8 @@
 import React from "react";
 import { Map, GoogleApiWrapper, Marker, InfoWindow } from "google-maps-react";
 import API_Calls from "../../utilities/Axios";
+import { MobileView } from "react-device-detect";
+import Upload from "../Upload/Upload";
 import "./SimpleMap.css";
 
 export class SimpleMap extends React.Component {
@@ -62,44 +64,56 @@ export class SimpleMap extends React.Component {
                     title={marker.filename}
                 />
             ) : (
-                null
-            );
+                    null
+                );
         })
         return (
-            <Map
-                google={this.props.google}
-                zoom={14}
-                onClick={this.closeInfoWindow}
-                style={{
-                    width: "100%",
-                    height: "100%"
-                }}
-                defaultOptions={{
-                    maxZoom: 8,
-                }}
-                initialCenter={{
-                    lat: 38.042081,
-                    lng: -84.492542
-                }}
-                disableDefaultUI
-            >
-                {this.state.data.length > 0 ? Markers : null}
-                {this.state.activeMarker ?
-                    <InfoWindow
-                        marker={this.state.activeMarker}
-                        visible={this.state.showingInfoWindow}
-                        onClose={this.onClose}
+            <React.Fragment>
+                <Map
+                    google={this.props.google}
+                    zoom={14}
+                    onClick={this.closeInfoWindow}
+                    style={{
+                        width: "100%",
+                        height: "100%"
+                    }}
+                    defaultOptions={{
+                        maxZoom: 8,
+                    }}
+                    initialCenter={{
+                        lat: 38.042081,
+                        lng: -84.492542
+                    }}
+                    disableDefaultUI
+                >
+                    {this.state.data.length > 0 ? Markers : null}
+                    {this.state.activeMarker ?
+                        <InfoWindow
+                            marker={this.state.activeMarker}
+                            visible={this.state.showingInfoWindow}
+                            onClose={this.onClose}
+                        >
+                            <div>
+                                <img
+                                    src={this.state.activeMarker.title}
+                                    className="mapImg"
+                                    alt={this.state.activeMarker.name}
+                                />
+                            </div>
+                        </InfoWindow>
+                        : null}
+                </Map>
+                <MobileView>
+                    <footer
+                        className="fixed-bottom"
                     >
-                        <div>
-                            <img
-                                src={"https://local-historian.appspot.com/images/" + this.state.activeMarker.title}
-                                className="mapImg"
-                                alt={this.state.activeMarker.name}
-                            />
-                        </div>
-                    </InfoWindow>
-                    : null}
-            </Map>
+                        <Upload
+                            token={this.state.token}
+                            setAlertStatus={this.setAlertStatus}
+                        />
+                    </footer>
+                </MobileView>
+            </React.Fragment>
         );
     }
 }

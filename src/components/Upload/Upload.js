@@ -95,7 +95,9 @@ export default class Upload extends React.Component {
 		};
 		reader.readAsDataURL(file);
 	}
-
+	componentDidMount() {
+		this.setState({ token: this.props.token });
+	}
 	// Upload the Form with Picture
 	async fileUpload() {
 		await this.getExif();
@@ -121,36 +123,36 @@ export default class Upload extends React.Component {
 					.child(image.name)
 					.getDownloadURL()
 					.then(url => {
-						this.setState({ url });
 						console.log(url);
+						const apiUrl = '/fileupload';
+						const coords = (this.state.photoCoords === '') ?
+							(this.state.deviceCoords) :
+							(this.state.photoCoords);
+						const formData = {
+							file: url,
+							coords: (coords),
+							title: this.state.title,
+							desc: this.state.desc,
+							addr: this.state.addr,
+						}
+						const token = localStorage.getItem('token');
+						console.log(token);
+						console.log(formData);
+						API_Calls.__post(formData, apiUrl, token)
+							.then(res => {
+								if (res.status === 200) {
+									// this.props.context.setAlertStatus("success", "Image Submitted Successfully!");
+								} else if (res.response.status === 401) {
+									// this.props.context.setAlertStatus("danger", "Unable to submit photo. You must have an account and be logged in to use this feature.");
+								}
+								this.toggleModal();
+							})
+							.catch(error => {
+								console.log(error);
+							});
 					});
 			},
 		)
-		console.log(this.state);
-		const url = '/fileupload';
-		const coords = (this.state.photoCoords === '') ?
-			(this.state.deviceCoords) :
-			(this.state.photoCoords);
-		const formData = {
-			file: this.state.image,
-			coords: (coords),
-			title: this.state.title,
-			desc: this.state.desc,
-			addr: this.state.addr,
-		}
-
-		API_Calls.__post(formData, url, this.props.token)
-			.then(res => {
-				if (res.status === 200) {
-					this.props.setAlertStatus("success", "Image Submitted Successfully!");
-				} else if (res.response.status === 401) {
-					this.props.setAlertStatus("danger", "Unable to submit photo. You must have an account and be logged in to use this feature.")
-				}
-				this.toggleModal();
-			})
-			.catch(error => {
-				console.log(error);
-			});
 	}
 
 	/* Getting Location Data from Photo, if not available, backup is pulled from device location */

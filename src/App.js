@@ -3,9 +3,7 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap";
 import SimpleNavbar from "./components/SimpleNavbar";
-import Upload from "./components/Upload/Upload";
 import { Alert } from "reactstrap";
-import { MobileView } from "react-device-detect";
 
 export default class App extends React.Component {
 	constructor(props) {
@@ -86,16 +84,6 @@ export default class App extends React.Component {
 					getTokenMethod={this.getLoginToken}
 					checkAdmin={this.checkAdminStatus}
 				/>
-				<MobileView>
-					<footer
-						className="fixed-bottom"
-					>
-						<Upload
-							token={this.state.token}
-							setAlertStatus={this.setAlertStatus}
-						/>
-					</footer>
-				</MobileView>
 			</React.Fragment>
 		);
 	}
