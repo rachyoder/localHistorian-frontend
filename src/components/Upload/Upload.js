@@ -15,8 +15,7 @@ import {
 	Spinner,
 	Input,
 	Label,
-	FormGroup,
-	Alert
+	FormGroup
 } from "reactstrap";
 import Storage from "./Firebase";
 
