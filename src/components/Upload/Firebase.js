@@ -1,6 +1,7 @@
 import Firebase from "firebase/app";
 import "firebase/storage";
 
+/* Holds the Firebase Configuration */
 const firebaseConfig = {
     apiKey: "AIzaSyC5Xu9GUoqhCX8nRYfXaqkA1saAs-hXH4k",
     authDomain: "local-historian.firebaseapp.com",

@@ -16,6 +16,7 @@ export default class MarkerTable extends React.Component {
         this.getMarkersTable = this.getMarkersTable.bind(this);
     }
 
+    //Will delete entry from the table and auto update it
     delete(e) {
         var id = e.target.id;
         API_Calls.__post({ id: id }, '/delete', this.props.token)
@@ -24,24 +25,25 @@ export default class MarkerTable extends React.Component {
             });
     }
 
+    //Checks if an entry is checked or not for verification, saves result in state
     isChecked(e) {
         const value = e.target.checked ? 1 : 0;
         const checkedValues = { id: Number(e.target.name), verify: value };
         this.setState({ verified: [...this.state.verified, checkedValues] });
     }
 
+    //Submits all verified markers to database, which allows them to be displayed
     submit(e) {
         e.preventDefault();
         API_Calls.__post({ 'verified': this.state.verified }, '/verify', this.props.token)
             .then(res => {
-                console.log(res);
                 this.getMarkersTable();
             })
             .catch(error => {
-                console.log(error);
             })
     }
 
+    //Pulls all the markers from database and stores them in state
     getMarkersTable() {
         API_Calls.__get('/markers', '')
             .then(res => {
@@ -49,6 +51,7 @@ export default class MarkerTable extends React.Component {
             });
     }
 
+    //On page load, grabs all the markers
     componentDidMount() {
         this.getMarkersTable();
     }

@@ -19,6 +19,7 @@ export class SimpleMap extends React.Component {
         this.closeInfoWindow = this.closeInfoWindow.bind(this);
     }
 
+    /* Toggles the marker display, pulling information to be used by specific marker on info window */
     onMarkerClick = (props, marker, e) => {
         this.setState({
             selectedPlace: props,
@@ -27,6 +28,7 @@ export class SimpleMap extends React.Component {
         });
     }
 
+    /* Resets Marker info back to default and hides the info window */
     onClose = props => {
         if (this.state.showingInfoWindow) {
             this.setState({
@@ -36,12 +38,14 @@ export class SimpleMap extends React.Component {
         }
     };
 
+    /* Closes the InfoWindow when you click on the map, only if it is currently open */
     closeInfoWindow() {
         if (this.state.showingInfoWindow) {
             this.setState({ showingInfoWindow: false });
         }
     }
 
+    /* Gets all the markers currently available */
     async MarkerGetter() {
         await API_Calls.__get('/markers', '')
             .then(res => {

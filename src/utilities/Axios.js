@@ -1,5 +1,6 @@
 import Axios from "axios";
 
+/* Axios GET call to the API -- Takes in a path and a token for authorization */
 function __get(url, token) {
     return Axios({
         url: url,
@@ -15,7 +16,7 @@ function __get(url, token) {
         });
 }
 
-
+/* Axios POST call to the API -- Takes in a path, token and data for posting to the api, typically for adding to the database */
 function __post(data, url, token) {
     return Axios({
         url: url,

@@ -3,6 +3,7 @@
     max-height: 10rem;
     border-radius: 5%;
     transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
     transform-origin: center;
     margin: 30px 0;
 }

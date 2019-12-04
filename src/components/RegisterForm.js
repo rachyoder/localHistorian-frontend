@@ -13,6 +13,7 @@ export default class RegisterForm extends React.Component {
         this.handleChange = this.handleChange.bind(this);
     }
 
+    /* Pulls form data and sends it up to the parent component */
     handleChange(event) {
         this.setState({ [event.target.name]: event.target.value });
         this.props.pullState(event.target.name, event.target.value);

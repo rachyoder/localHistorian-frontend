@@ -23,29 +23,34 @@ export default class App extends React.Component {
 		this.onDismiss = this.onDismiss.bind(this);
 	}
 
+	//Passed into children to get alert status and display
 	setAlertStatus(alertColor, alertStatus) {
 		this.setState({
 			alertColor: alertColor,
 			alertStatus: alertStatus,
 			visible: true,
 		})
-
 	}
 
+	//Grabs the login token and saves it in state
 	getLoginToken(userToken) {
 		this.setState({ token: userToken });
 	}
 
+	//Grabs the admin status and saves it in state
 	checkAdminStatus(admin) {
 		this.setState({ isAdmin: admin });
 	}
 
+	//Storing Location in state
 	displayLocation(position) {
 		this.setState({
 			lat: position.coords.latitude,
 			lng: position.coords.longitude,
 		})
 	}
+
+	//If user disables location data, it will pop up a warning to let them know it is neccessary
 	deniedLocation(error) {
 		this.setAlertStatus("danger", "This website uses location data in order to accurately track the position of Historical Markers, as well as many other features on this site. Please enable location data on this website to continue.");
 	}
@@ -53,6 +58,7 @@ export default class App extends React.Component {
 		this.setState({ visible: (!this.state.visible) });
 	}
 
+	//Checks if a User is logged in by seeing if token is still in local storage. If this is the case it will automatically log the user back in
 	componentDidMount() {
 		if (localStorage.length > 0) {
 			this.setState({ 

@@ -6,6 +6,7 @@
     max-height: 20rem;
     max-width: 20rem;
     transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
     transform-origin: center;
 }
 

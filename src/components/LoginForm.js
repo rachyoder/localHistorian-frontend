@@ -12,6 +12,7 @@ export default class LoginForm extends React.Component {
         this.handleChange = this.handleChange.bind(this);
     }
 
+    /* Grabs form data and passes it up to the parent for submission */
     handleChange(event) {
         this.setState({ [event.target.name]: event.target.value });
         this.props.pullState(event.target.name, event.target.value);

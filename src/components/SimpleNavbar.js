@@ -15,6 +15,7 @@ export default class SimpleNavbar extends React.Component {
         this.toggle = this.toggle.bind(this);
     }
 
+    /* Toggles the collapse menu of the navbar */
     toggle() {
         this.setState({ isOpen: (!this.state.isOpen) });
     }

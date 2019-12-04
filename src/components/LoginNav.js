@@ -24,21 +24,25 @@ export default class LoginNav extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    /* Will show or hide the modal when called */
     toggleModal() {
         let modal = (!this.state.modal);
         this.setState({ modal: modal });
     }
 
+    /* Changes between the login and register tabs */
     toggleTab(tab) {
         if (tab !== this.state.activeTab) {
             this.setState({ activeTab: tab });
         }
     }
 
+    /* Will pull form data and save it into state */
     pullState(name, value) {
         this.setState({ [name]: value });
     }
 
+    /* Handles submissions for logging in or registering a new user. Changes form submission based on active tab */
     handleSubmit(event) {
         event.preventDefault();
         let values, url;
@@ -71,9 +75,6 @@ export default class LoginNav extends React.Component {
                 } else if (res.response.status === 422) {
                     this.setState({ errorThrown: "Error Occurred - Check credentials and Try Again" });
                 }
-            })
-            .catch(error => {
-                console.log(error);
             })
     }
 
