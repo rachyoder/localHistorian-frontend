@@ -75,8 +75,8 @@ export default class MarkerTable extends React.Component {
                             <CardFooter>
                                 <div>
                                     {marker.isVerified ?
-                                        <input type="checkbox" id="verify" className="mx-1" name={marker.id} onChange={this.isChecked} checked /> : <input type="checkbox" id="verify" className="mx-1" name={marker.id} onChange={this.isChecked} />}
-                                    <label htmlFor="verify" className="text-center mt-2 text-muted"> Verify</label>
+                                        <input type="checkbox" id={"verify" + idx} className="mx-1" name={marker.id} onChange={this.isChecked} checked /> : <input type="checkbox" id={"verify" + idx} className="mx-1" name={marker.id} onChange={this.isChecked} />}
+                                    <label htmlFor={"verify" + idx} className="text-center mt-2 text-muted"> Verify</label>
                                     <button className="text-muted btn btn-outline-secondary float-right delete" id={marker.id} onClick={this.delete}>Delete</button>
                                 </div>
                             </CardFooter>
