@@ -21,11 +21,11 @@ export default class LandingTutorial extends React.Component {
     render() {
         return (
             <Modal size="lg" isOpen={this.state.visible} toggle={this.toggle}>
-                <div>
-                    <ModalHeader className="text-info font-light" color="dark" toggle={this.toggle}>
-                        local<span className="custom-font text-dark">Historian</span>
+                <div className="modal-full">
+                    <ModalHeader className="bg-dark" toggle={this.toggle}>
+                        <span className="text-info font-light">local</span><span className="custom-font text-light">Historian</span>
                     </ModalHeader>
-                    <ModalBody>
+                    <ModalBody className="bg-dark">
 
                     </ModalBody>
                 </div>

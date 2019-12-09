@@ -84,19 +84,19 @@ export default class LoginNav extends React.Component {
                 <NavLink onClick={this.toggleModal}>Login</NavLink>
                 <Modal centered isOpen={this.state.modal} toggle={this.toggleModal} >
                     <Nav tabs fill>
-                        <NavItem>
-                            <NavLink className={classnames({ active: this.state.activeTab })} onClick={() => this.toggleTab('1')} >
+                        <NavItem className="bg-dark">
+                            <NavLink className={classnames({ active: this.state.activeTab }), "bg-dark text-light"} onClick={() => this.toggleTab('1')} >
                                 Login
                                 </NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink className={classnames({ active: this.state.activeTab })} onClick={() => this.toggleTab('2')} >
+                            <NavLink className={classnames({ active: this.state.activeTab }), "bg-dark text-light"} onClick={() => this.toggleTab('2')} >
                                 Register
                                 </NavLink>
                         </NavItem>
                     </Nav>
                     <Form onSubmit={this.handleSubmit} >
-                        <ModalBody>
+                        <ModalBody className="bg-dark text-light">
                             <TabContent activeTab={this.state.activeTab} >
                                 <TabPane tabId="1">
                                     <LoginForm pullState={this.pullState} errorThrown={this.state.errorThrown} />
@@ -106,8 +106,8 @@ export default class LoginNav extends React.Component {
                                 </TabPane>
                             </TabContent>
                         </ModalBody>
-                        <ModalFooter>
-                            <Button color="dark" outline onSubmit={this.handleSubmit} >Submit</Button>
+                        <ModalFooter className="bg-dark text-light">
+                            <Button color="info" block onSubmit={this.handleSubmit} >Submit</Button>
                         </ModalFooter>
                     </Form>
                 </Modal>

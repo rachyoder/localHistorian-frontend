@@ -78,7 +78,7 @@ export default class App extends React.Component {
 	render() {
 		return (
 			<React.Fragment>
-				<LandingTutorial />
+				{/* <LandingTutorial /> */}
 					<Alert
 						color={this.state.alertColor}
 						isOpen={this.state.visible}
