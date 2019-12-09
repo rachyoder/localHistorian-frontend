@@ -1,5 +1,6 @@
 import React from "react";
 import { Form, Button, Card, CardBody, CardTitle, CardText, CardImg, CardFooter, Row, Col } from "reactstrap";
+import { isIOS } from "react-device-detect";
 import API_Calls from "../../utilities/Axios";
 import "./MarkerTable.css";
 
@@ -62,9 +63,13 @@ export default class MarkerTable extends React.Component {
                 this.props.admin ? (
                     <Col sm="4" key={idx}>
                         <Card className="m-3" >
-                            <div className="imgContainer">
-                                <CardImg top className="mt-3 imgStyle" src={marker.filename} alt="Card image cap" />
-                            </div>
+                            {isIOS ? (
+                                <img className="img-table-ios" src={marker.filename} alt="marker.title" />
+                            ) : (
+                                    <div className="imgContainer">
+                                        <CardImg className="mt-3 imgStyle" src={marker.filename} alt="Card image cap" />
+                                    </div>
+                                )}
                             <CardBody>
                                 <CardTitle className="text-center"><strong>{marker.title}</strong></CardTitle>
                                 <CardText>{marker.desc}</CardText>
@@ -86,9 +91,13 @@ export default class MarkerTable extends React.Component {
                         (marker.isVerified) ? (
                             <div className="m-3 col-lg-4" key={idx}>
                                 <Card>
-                                    <div className="imgContainer">
-                                        <CardImg className="mt-3 imgStyle" src={marker.filename} alt="Card image cap" />
-                                    </div>
+                                    {isIOS ? (
+                                        <img className="img-table-ios" src={marker.filename} alt="marker.title" />
+                                    ) : (
+                                            <div className="imgContainer">
+                                                <CardImg className="mt-3 imgStyle" src={marker.filename} alt="Card image cap" />
+                                            </div>
+                                        )}
                                     <CardBody>
                                         <CardTitle className="text-center"><strong>{marker.title}</strong></CardTitle>
                                         <CardText>{marker.desc}</CardText>

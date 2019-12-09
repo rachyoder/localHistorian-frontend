@@ -1,7 +1,7 @@
 import React from "react";
 import { Map, GoogleApiWrapper, Marker, InfoWindow } from "google-maps-react";
 import API_Calls from "../../utilities/Axios";
-import { MobileView } from "react-device-detect";
+import { MobileView, isIOS } from "react-device-detect";
 import Upload from "../Upload/Upload";
 import "./SimpleMap.css";
 
@@ -98,11 +98,19 @@ export class SimpleMap extends React.Component {
                             onClose={this.onClose}
                         >
                             <div>
+                                {isIOS ? (
+                                    <img
+                                        src={this.state.activeMarker.title}
+                                        className="imgIOS"
+                                        alt={this.state.activeMarker.name} 
+                                    />
+                                ) : (
                                 <img
                                     src={this.state.activeMarker.title}
                                     className="mapImg"
                                     alt={this.state.activeMarker.name}
                                 />
+                                )}
                             </div>
                         </InfoWindow>
                         : null}

@@ -23,6 +23,7 @@
   height: 5rem;
   text-align:center;
   transition: color 0.3s;
+  box-shadow: 5px 5px 10px #858585;
 }
 
 [type="file"]:focus+label,
@@ -48,6 +49,13 @@
   -webkit-transform: rotate(90deg);
   transform-origin: center;
   /* margin-right: 5rem; */
+}
+
+.ios-img {
+  max-width: 100%;
+  border-radius: 15px;
+  border-top: 1px solid white;
+  border-right: 1px solid white;
 }
 
 .submit-status {

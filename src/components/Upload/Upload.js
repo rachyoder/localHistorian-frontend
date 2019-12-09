@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Geocode from "react-geocode";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import Storage from "./Firebase";
+import isIOS from "react-device-detect";
 import {
 	Form,
 	Button,
@@ -162,13 +163,18 @@ export default class Upload extends React.Component {
 								if (res.status === 200) {
 									this.setState({
 										alertColor: "success",
-										alertBody: "Upload Successful! Photo awaiting verification"
+										alertBody: "Upload Successful! Photo awaiting verification."
 									});
 								} else if (res.response.status === 401) {
 									this.setState({
 										alertColor: "danger",
 										alertBody: "Unable to upload photo. Make sure you are logged in and try again."
 									});
+								} else {
+									this.setState({
+										alertColor: "danger",
+										alertBody: "An error has occured. Please try again later."
+									})
 								}
 								this.toggleModal();
 								this.passAlertData(this.state.alertColor, this.state.alertBody);
@@ -181,6 +187,7 @@ export default class Upload extends React.Component {
 		)
 	}
 
+	/* Pulls alert data and sends it up to parent element */
 	passAlertData(color, body) {
 		this.props.setAlertStatus(color, body);
 	}
@@ -227,9 +234,13 @@ export default class Upload extends React.Component {
 								Upload This Image?
 						</ModalHeader>
 							<ModalBody className="bg-dark text-light">
+								{isIOS ? (
+									<img src={this.state.image} className="ios-img" id="get-exif" alt="" />
+								) : (
 								<div className="container">
 									<img src={this.state.image} className="display-img" id="get-exif" alt="" />
 								</div>
+								)}
 								<FormGroup className="mt-3">
 									<Label for="markerTitle">Title of Marker</Label>
 									<Input type="text" name="title" id="markerTitle" onChange={this.handleChange} required />
