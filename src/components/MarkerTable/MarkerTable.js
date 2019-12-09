@@ -84,7 +84,7 @@ export default class MarkerTable extends React.Component {
                     </Col>
                 ) : (
                         (marker.isVerified) ? (
-                            <div className="mt-5 col-lg-4" key={idx}>
+                            <div className="m-3 col-lg-4" key={idx}>
                                 <Card>
                                     <div className="imgContainer">
                                         <CardImg className="mt-3 imgStyle" src={marker.filename} alt="Card image cap" />

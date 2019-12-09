@@ -24,33 +24,62 @@ export default class SimpleNavbar extends React.Component {
         return (
             <React.Fragment>
                 <Router>
-                    <Navbar color="dark" dark fixed={"top"} expand="md">
+                    <Navbar
+                        color="dark"
+                        dark
+                        expand="md"
+                    >
                         <NavbarBrand href="/" className="mr-auto custom-font"><span className="text-info font-light">local</span>Historian</NavbarBrand>
                         <NavbarToggler onClick={this.toggle} />
                         <Collapse isOpen={this.state.isOpen} navbar>
-                            <Nav className="ml-auto" navbar>
+                            <Nav
+                                className="ml-auto"
+                                navbar
+                            >
                                 <NavItem>
-                                    <NavLink tag={Link} onClick={this.toggle} to="/">Map</NavLink>
+                                    <NavLink
+                                        tag={Link}
+                                        onClick={this.toggle}
+                                        to="/"
+                                    >
+                                        Map
+                                    </NavLink>
                                 </NavItem>
                                 <NavItem>
-                                    <NavLink tag={Link} onClick={this.toggle} to="/table">Database</NavLink>
+                                    <NavLink
+                                        tag={Link}
+                                        onClick={this.toggle}
+                                        to="/table"
+                                    >
+                                        Database
+                                    </NavLink>
                                 </NavItem>
                                 <NavItem onClick={this.toggle}>
                                     {this.props.token === "" ?
                                         (
-                                            <LoginNav getTokenMethod={this.props.getTokenMethod} checkAdmin={this.props.checkAdmin} />
+                                            <LoginNav
+                                                getTokenMethod={this.props.getTokenMethod}
+                                                checkAdmin={this.props.checkAdmin}
+                                            />
                                         ) : (
-                                            <Logout token={this.props.token} clearToken={this.props.getTokenMethod} />)}
+                                            <Logout
+                                                token={this.props.token}
+                                                clearToken={this.props.getTokenMethod}
+                                            />
+                                        )}
                                 </NavItem>
                             </Nav>
                         </Collapse>
                     </Navbar>
                     <Switch>
                         <Route path="/table">
-                            <MarkerTable token={this.props.token} admin={this.props.admin} />
+                            <MarkerTable
+                                token={this.props.token}
+                                admin={this.props.admin}
+                            />
                         </Route>
                         <Route path="/">
-                            <SimpleMap />
+                            <SimpleMap setAlertStatus={this.props.setAlertStatus} />
                         </Route>
                     </Switch>
                 </Router>

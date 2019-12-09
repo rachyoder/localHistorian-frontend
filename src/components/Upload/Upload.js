@@ -5,6 +5,7 @@ import EXIF from "exif-js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Geocode from "react-geocode";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
+import Storage from "./Firebase";
 import {
 	Form,
 	Button,
@@ -17,7 +18,6 @@ import {
 	Label,
 	FormGroup
 } from "reactstrap";
-import Storage from "./Firebase";
 
 export default class Upload extends React.Component {
 	constructor(props) {
@@ -44,8 +44,8 @@ export default class Upload extends React.Component {
 		this.handleChange = this.handleChange.bind(this);
 		this.onFormSubmit = this.onFormSubmit.bind(this);
 		this.fileUpload = this.fileUpload.bind(this);
+		this.passAlertData = this.passAlertData.bind(this);
 		this.getExif = this.getExif.bind(this);
-		this.alertVisible = this.alertVisible.bind(this);
 	}
 
 	/* Will convert latitude and longitude into a readable address */
@@ -171,7 +171,7 @@ export default class Upload extends React.Component {
 									});
 								}
 								this.toggleModal();
-								this.alertVisible();
+								this.passAlertData(this.state.alertColor, this.state.alertBody);
 							})
 							.catch(error => {
 								// console.log(error);
@@ -179,6 +179,10 @@ export default class Upload extends React.Component {
 					});
 			},
 		)
+	}
+
+	passAlertData(color, body) {
+		this.props.setAlertStatus(color, body);
 	}
 
 	/* Getting Location Data from Photo, if not available, backup is pulled from device location */

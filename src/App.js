@@ -61,7 +61,7 @@ export default class App extends React.Component {
 	//Checks if a User is logged in by seeing if token is still in local storage. If this is the case it will automatically log the user back in
 	componentDidMount() {
 		if (localStorage.length > 0) {
-			this.setState({ 
+			this.setState({
 				token: localStorage.getItem("token"),
 				isAdmin: localStorage.getItem("isAdmin"),
 			});
@@ -77,18 +77,20 @@ export default class App extends React.Component {
 	render() {
 		return (
 			<React.Fragment>
-				<Alert
-					color={this.state.alertColor}
-					isOpen={this.state.visible}
-					toggle={this.onDismiss}
-				>
-					{this.state.alertStatus}
-				</Alert>
+					<Alert
+						color={this.state.alertColor}
+						isOpen={this.state.visible}
+						toggle={this.onDismiss}
+						className="mx-auto alertContainer"
+					>
+						{this.state.alertStatus}
+					</Alert>
 				<SimpleNavbar
 					token={this.state.token}
 					admin={this.state.isAdmin}
 					getTokenMethod={this.getLoginToken}
 					checkAdmin={this.checkAdminStatus}
+					setAlertStatus={this.setAlertStatus}
 				/>
 			</React.Fragment>
 		);

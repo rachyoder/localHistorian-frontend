@@ -113,7 +113,7 @@ export class SimpleMap extends React.Component {
                     >
                         <Upload
                             token={this.state.token}
-                            setAlertStatus={this.setAlertStatus}
+                            setAlertStatus={this.props.setAlertStatus}
                         />
                     </footer>
                 </MobileView>
