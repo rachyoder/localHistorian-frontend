@@ -27,6 +27,7 @@ export default class SimpleNavbar extends React.Component {
                     <Navbar
                         color="dark"
                         dark
+                        className="sticky-top"
                         expand="md"
                     >
                         <NavbarBrand href="/" className="mr-auto custom-font"><span className="text-info font-light">local</span>Historian</NavbarBrand>

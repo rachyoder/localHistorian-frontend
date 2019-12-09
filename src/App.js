@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap";
 import SimpleNavbar from "./components/SimpleNavbar";
 import { Alert } from "reactstrap";
+import LandingTutorial from "./components/LandingTutorial/LandingTutorial";
 
 export default class App extends React.Component {
 	constructor(props) {
@@ -77,6 +78,7 @@ export default class App extends React.Component {
 	render() {
 		return (
 			<React.Fragment>
+				<LandingTutorial />
 					<Alert
 						color={this.state.alertColor}
 						isOpen={this.state.visible}

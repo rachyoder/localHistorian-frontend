@@ -118,8 +118,8 @@ export default class MarkerTable extends React.Component {
             <Form onSubmit={this.submit}>
                 <div className="container-fluid mt-3">
                     {this.props.admin ? (
-                        <div className="row mt-5 align-items-center">
-                            <Button color="info" className="btn-block mt-3" >Verify Selected</Button>
+                        <div className="row align-items-center">
+                            <Button color="info" className="btn-block" >Verify Selected</Button>
                         </div>
                     ) : (
                             null
